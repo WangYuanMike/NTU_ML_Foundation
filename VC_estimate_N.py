@@ -1,11 +1,14 @@
-from math import exp
+from scipy import optimize
+from scipy import exp, power
 
 epsilon = 0.05
 dvc = 10
-N_list = [420000, 440000, 460000, 480000, 500000]
+delta = 0.05
 
-# It is hard to get a close solution of N, because the formula below is quite complex,
-# therefore N has to be approximated in this way
-for N in N_list:
-    delta = 4*pow(2*N, dvc)*exp(-1/8*pow(epsilon, 2)*N)
-    print("N = %d, delta = %.4f" % (N, delta))
+
+def f(N):
+    return 4*power(2*N, dvc)*exp(-1/8*power(epsilon, 2)*N) - delta
+
+
+root = optimize.newton(f, 420000)
+print("root = %.2f" % root)
