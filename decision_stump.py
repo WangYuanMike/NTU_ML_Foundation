@@ -16,6 +16,19 @@ def sample_generator(N=20, noise=0.2):
         yield x, y
 
 
+def get_e_in(theta, x, y):
+    e_in = 0
+    for i in range(len(x)):
+        if (x[i] <= theta and y[i] == 1) or (x[i] > theta and y[i] == -1):
+            e_in += 1 / len(x)
+    return e_in
+
+
+def get_e_out(theta):
+    e_out = 0.5 + 0.3 * (abs(theta) - 1)
+    return e_out
+
+
 def decision_stump(x, y):
     optimal_e_in = 1.0
     optimal_theta = 0.0
@@ -32,14 +45,6 @@ def decision_stump(x, y):
     return optimal_e_in, e_out
 
 
-def get_e_in(theta, x, y):
-    e_in = 0
-    for i in range(len(x)):
-        if (x[i] <= theta and y[i] == 1) or (x[i] > theta and y[i] == -1):
-            e_in += 1 / len(x)
-    return e_in
-
-
 def get_average_errors(num_experiments=5000):
     e_in_average = 0.0
     e_out_average = 0.0
@@ -50,11 +55,6 @@ def get_average_errors(num_experiments=5000):
         e_in_average += e_in / num_experiments
         e_out_average += e_out / num_experiments
     return e_in_average, e_out_average
-
-
-def get_e_out(theta):
-    e_out = 0.5 + 0.3 * (abs(theta) - 1)
-    return e_out
 
 
 if __name__ == '__main__':
