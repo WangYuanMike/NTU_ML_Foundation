@@ -165,39 +165,40 @@ class Perceptron:
         print("pocket weight:", self.pocket_weight)
 
 
-if sys.argv[1] == "hw1_15":
-    TRAIN_FILE = "./hw1_15_train.dat"
-    TEST_FILE = None
+if __name__ == '__main__':
+    if sys.argv[1] == "hw1_15":
+        TRAIN_FILE = "./hw1_15_train.dat"
+        TEST_FILE = None
 
-if sys.argv[1] == "hw1_18":
-    TRAIN_FILE = "./hw1_18_train.dat"
-    TEST_FILE = "./hw1_18_test.dat"
+    if sys.argv[1] == "hw1_18":
+        TRAIN_FILE = "./hw1_18_train.dat"
+        TEST_FILE = "./hw1_18_test.dat"
 
-p = Perceptron(TRAIN_FILE, TEST_FILE)
-p.head()
-p.shape()
-p.show_weight()
-
-if sys.argv[2] == "naive_pla":
-    p.naive_pla()
+    p = Perceptron(TRAIN_FILE, TEST_FILE)
+    p.head()
+    p.shape()
     p.show_weight()
 
-if sys.argv[2] == "random_pla":
-    p.random_pla_experiments()
-    p.show_weight()
+    if sys.argv[2] == "naive_pla":
+        p.naive_pla()
+        p.show_weight()
 
-if sys.argv[2] == "random_pla_0.5":
-    p.random_pla_experiments(eta=0.5)
-    p.show_weight()
+    if sys.argv[2] == "random_pla":
+        p.random_pla_experiments()
+        p.show_weight()
 
-if sys.argv[2] == "pocket_50":
-    p.pocket_experiment(pocket_num_updates=50, num_experiements=2000, verbose=False, is_pocket=True)
-    p.show_weight()
+    if sys.argv[2] == "random_pla_0.5":
+        p.random_pla_experiments(eta=0.5)
+        p.show_weight()
 
-if sys.argv[2] == "w50":
-    p.pocket_experiment(pocket_num_updates=50, num_experiements=2000, verbose=False, is_pocket=False)
-    p.show_weight()
+    if sys.argv[2] == "pocket_50":
+        p.pocket_experiment(pocket_num_updates=50, num_experiements=2000, verbose=False, is_pocket=True)
+        p.show_weight()
 
-if sys.argv[2] == "pocket_100":
-    p.pocket_experiment(pocket_num_updates=100, num_experiements=2000, verbose=False, is_pocket=True)
-    p.show_weight()
+    if sys.argv[2] == "w50":
+        p.pocket_experiment(pocket_num_updates=50, num_experiements=2000, verbose=False, is_pocket=False)
+        p.show_weight()
+
+    if sys.argv[2] == "pocket_100":
+        p.pocket_experiment(pocket_num_updates=100, num_experiements=2000, verbose=False, is_pocket=True)
+        p.show_weight()
