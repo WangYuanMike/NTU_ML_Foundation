@@ -38,8 +38,8 @@ def get_error_rate(w_lin, x, y):
     y_hat = sign(np.dot(x, w_lin))
     error = np.zeros(y.shape)
     error[y != y_hat] = 1
-    e_in = error.sum() / len(error)
-    return e_in
+    error_rate = error.sum() / len(error)
+    return error_rate
 
 
 def get_avg_error_rate(num_experiments=1000, transform=False):
