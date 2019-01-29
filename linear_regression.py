@@ -1,8 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import sign
-from sklearn.linear_model import LinearRegression
-from sklearn.base import clone
 
 
 def generate_sample(N=1000, noise=0.1):
