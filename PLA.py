@@ -5,7 +5,9 @@ from itertools import cycle
 
 
 class Perceptron:
-    def __init__(self, train_file, test_file=None):
+    def __init__(self, train_file=None, test_file=None):
+        if train_file is None: return
+
         self.train_data = np.loadtxt(train_file)
         self.train_x = np.ones(self.train_data.shape)
         self.train_x[:, :-1] = self.train_data[:, :-1]
@@ -20,6 +22,13 @@ class Perceptron:
             self.test_y = self.test_data[:, -1]
 
         self.weight = np.zeros(self.train_data.shape[1])
+        self.pocket_weight = np.zeros(self.weight.shape)
+
+    def init_from_data(self, train_x, train_y):
+        self.train_x = np.ones((train_x.shape[0], train_x.shape[1] + 1))
+        self.train_x[:, :-1] = train_x
+        self.train_y = train_y
+        self.weight = np.zeros(self.train_x.shape[1])
         self.pocket_weight = np.zeros(self.weight.shape)
 
     def pla(self, index_pool, eta=1.0, verbose=False):
@@ -138,8 +147,8 @@ class Perceptron:
         return avg_test_error_rate
 
     def init_weight(self):
-        self.weight = np.zeros(self.train_data.shape[1])
-        self.pocket_weight = np.zeros(self.weight.shape)
+        self.weight = np.zeros(self.weight.shape)
+        self.pocket_weight = np.zeros(self.pocket_weight.shape)
 
     def head(self):
         print()

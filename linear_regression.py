@@ -88,12 +88,21 @@ def print_sample(x, y):
             plt.scatter(x[i,0], x[i,1], c='b', marker='o')
 
 
-def abline(slope, intercept):
+def abline(slope, intercept, fmt="-"):
     """Plot a line from slope and intercept"""
     axes = plt.gca()
+    axes.set_xlim([-1, 1])
+    axes.set_ylim([-1, 1])
     x_vals = np.array(axes.get_xlim())
     y_vals = intercept + slope * x_vals
-    plt.plot(x_vals, y_vals, '--', c='k')
+    plt.plot(x_vals, y_vals, fmt, c='k')
+
+
+def wbline(w, b, fmt="-"):
+    """Plot a line from weight and bias"""
+    slope = -1 * w[0] / w[1]
+    intercept = -1 * b / w[1]
+    abline(slope, intercept, fmt)
 
 
 if __name__ == '__main__':
