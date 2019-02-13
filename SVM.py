@@ -103,13 +103,24 @@ def get_error(target_w, target_b, model_w, model_b):
     return error
 
 
+def get_error_monte_carlo(target_w, target_b, pla_w, pla_b, svm_w, svm_b, N=10000):
+    x = np.random.uniform(-1, 1, (N, 2))
+    s = np.dot(x, target_w) + target_b
+    y = sign(s)
+    pla_s = np.dot(x, pla_w) + pla_b
+    pla_y = sign(pla_s)
+    svm_s = np.dot(x, svm_w) + svm_b
+    svm_y = sign(svm_s)
+    return len(pla_y[pla_y != y]), len(svm_y[svm_y != y])
+
 def compare_pla_svm(N=10):
     target_w, target_b = generate_target_weight_bias()
     x, y = generate_samples(N, target_w, target_b)
     pla_w, pla_b = get_pla_weight_bias(x, y)
     svm_w, svm_b, sv = svm_hard_margin_dual(x, y)
-    pla_error = get_error(target_w, target_b, pla_w, pla_b)
-    svm_error = get_error(target_w, target_b, svm_w, svm_b)
+    #pla_error = get_error(target_w, target_b, pla_w, pla_b)
+    #svm_error = get_error(target_w, target_b, svm_w, svm_b)
+    pla_error, svm_error = get_error_monte_carlo(target_w, target_b, pla_w, pla_b, svm_w, svm_b)
     svm_win = 0
     if pla_error > svm_error:
         svm_win = 1
@@ -153,8 +164,9 @@ def unit_test(N=10):
     print_support_vector(x, y, sv)
     print("support vectors:", sv)
 
-    pla_error = get_error(target_w, target_b, pla_w, pla_b)
-    svm_error = get_error(target_w, target_b, svm_w, svm_b)
+    # pla_error = get_error(target_w, target_b, pla_w, pla_b)
+    # svm_error = get_error(target_w, target_b, svm_w, svm_b)
+    pla_error, svm_error = get_error_monte_carlo(target_w, target_b, pla_w, pla_b, svm_w, svm_b)
 
     print("pla_error = %.3f" % pla_error)
     print("svm_error = %.3f" % svm_error)
@@ -165,7 +177,7 @@ def unit_test(N=10):
 
 
 if __name__ == '__main__':
-    unit_test()
+    #unit_test()
 
     svm_wins_10, num_sv_10 = get_svm_wins(N=10)
     svm_wins_100, num_sv_100 = get_svm_wins(N=100)
