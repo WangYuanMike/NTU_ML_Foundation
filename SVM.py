@@ -66,7 +66,7 @@ def svm_hard_margin_dual(x, y):
     b = matrix(0.0)
 
     '''
-    # Traditional QP: convert equation constrains Ax=b into "Ax>=b and -Ax<=-b"
+    # Traditional QP: convert equation constrains Ax=b into "Ax>=b and -Ax>=-b"
     G_original = np.identity(N) * -1
     G_plus = np.zeros((N+2, N))
     G_plus[:N, :] = G_original
