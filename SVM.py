@@ -64,6 +64,18 @@ def svm_hard_margin_dual(x, y):
     h = matrix(0.0, (N, 1))
     A = matrix(y[np.newaxis, :])
     b = matrix(0.0)
+
+    '''
+    # Traditional QP: convert equation constrains Ax=b into "Ax>=b and -Ax<=-b"
+    G_original = np.identity(N) * -1
+    G_plus = np.zeros((N+2, N))
+    G_plus[:N, :] = G_original
+    G_plus[N, :] = y
+    G_plus[N+1, :] = -1 * y
+    G = matrix(G_plus)
+    h = matrix(0.0, (N+2, 1))
+    '''
+
     solvers.options['show_progress'] = False
     sol = solvers.qp(Q, p, G, h, A, b)
 
@@ -122,7 +134,7 @@ def get_svm_wins_multiprocessing(N=10, M=1000):
     #a = sum(row[0] for row in results)
     #b = sum(row[1] for row in results)
     #return [a/M, b/M]
-    results = np.array(pool.map(compare_pla_svm, args)) # not due to numpy
+    results = np.array(pool.map(compare_pla_svm, args)) # python quit not due to numpy
     return np.sum(results, axis=0) / M
 
 
@@ -153,7 +165,7 @@ def unit_test(N=10):
 
 
 if __name__ == '__main__':
-    #unit_test()
+    unit_test()
 
     svm_wins_10, num_sv_10 = get_svm_wins(N=10)
     svm_wins_100, num_sv_100 = get_svm_wins(N=100)
