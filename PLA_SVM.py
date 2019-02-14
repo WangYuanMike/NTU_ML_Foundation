@@ -113,6 +113,7 @@ def get_error_monte_carlo(target_w, target_b, pla_w, pla_b, svm_w, svm_b, N=1000
     svm_y = sign(svm_s)
     return len(pla_y[pla_y != y]), len(svm_y[svm_y != y])
 
+
 def compare_pla_svm(N=10):
     target_w, target_b = generate_target_weight_bias()
     x, y = generate_samples(N, target_w, target_b)
@@ -138,7 +139,7 @@ def get_svm_wins(N=10, M=1000):
 
 
 def get_svm_wins_multiprocessing(N=10, M=1000):
-    '''python quit unexpectedly on macos for N=100, M=1000'''
+    # python quit unexpectedly on macos for N=100, M=1000
     args = [N for i in range(M)]
     pool = Pool(cpu_count())
     results = pool.map(compare_pla_svm, args)
