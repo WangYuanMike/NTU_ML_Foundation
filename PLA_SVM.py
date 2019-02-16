@@ -66,7 +66,7 @@ def svm_hard_margin_dual(x, y):
     b = matrix(0.0)
 
     '''
-    # Traditional QP: convert equation constrains Ax=b into "Ax>=b and -Ax>=-b"
+    # Traditional QP: convert equation constrains Ax=b into "Ax<=b and -Ax<=-b"
     G_original = np.identity(N) * -1
     G_plus = np.zeros((N+2, N))
     G_plus[:N, :] = G_original
@@ -86,10 +86,15 @@ def svm_hard_margin_dual(x, y):
     return weight, bias, sv
 
 
-def print_support_vector(x, y, sv):
-    for i in range(len(y)):
-        if i in sv:
-            plt.scatter(x[i,0], x[i,1], c='w', marker='.')
+def print_support_vector(x, sv, free_sv=None):
+    for i in sv:
+        if free_sv is None or i not in free_sv:
+            m = 's'
+            s = 128
+        else:
+            m = '*'
+            s = 256
+        plt.scatter(x[i,0], x[i,1], s=s, facecolors='none', edgecolors='k', marker=m)
 
 
 def get_error(target_w, target_b, model_w, model_b):
@@ -162,7 +167,7 @@ def unit_test(N=10):
     # svm_w, svm_b = svm_hard_margin_primal(x, y)
     svm_w, svm_b, sv = svm_hard_margin_dual(x, y)
     wbline(svm_w, svm_b, fmt="--")
-    print_support_vector(x, y, sv)
+    print_support_vector(x, sv)
     print("support vectors:", sv)
 
     # pla_error = get_error(target_w, target_b, pla_w, pla_b)
@@ -178,7 +183,7 @@ def unit_test(N=10):
 
 
 if __name__ == '__main__':
-    #unit_test()
+    unit_test()
 
     svm_wins_10, num_sv_10 = get_svm_wins(N=10)
     svm_wins_100, num_sv_100 = get_svm_wins(N=100)
