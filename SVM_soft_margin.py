@@ -2,9 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from cvxopt import solvers, matrix
+from scipy import exp
 
 import PLA_SVM as ps
 
+EPSILON = 1e-4
 
 def load_samples(sample_file):
     samples = np.loadtxt(sample_file)
@@ -54,16 +56,49 @@ def svm_soft_margin_dual(x, y, c, kernel=None, q=1, zeta=0, gamma=1):
     sol = solvers.qp(Q, p, G, h, A, b)
 
     alpha = np.squeeze(sol['x'])
-    sv = np.squeeze(np.where(alpha > 1e-3))
-    free_sv = np.squeeze(np.where((alpha > 1e-3) & (alpha / c < 0.99)))
-    weight = np.squeeze((alpha[sv][:, None] * y[sv][:, None]).T.dot(x[sv]))
-    bias = y[free_sv[0]] - np.dot(weight, x[free_sv[0]])
-    print(alpha)
-    print(sv)
-    print(free_sv)
-    print(weight)
-    print(bias)
-    return alpha, sv, free_sv, weight, bias
+    sv = np.squeeze(np.where(alpha > EPSILON))
+    free_sv = np.squeeze(np.where((alpha > EPSILON) & (alpha / c < 0.99)))
+    return alpha, sv, free_sv
+
+
+def kernel_score(x, y, sv, free_sv, alpha, x_prime, kernel=None, q=1, zeta=0, gamma=1):
+    def polynomial_kernel(x, x_prime, q=1, zeta=0, gamma=1):
+        return pow(zeta + gamma * np.dot(x, x_prime), q)
+
+    def gaussian_kernel(x, x_prime, gamma=1):
+        return exp(-1 * np.linalg.norm(x - x_prime, 2) ** 2)
+
+    def kernel_sum(x, y, sv, alpha, x_prime, kernel):
+        if kernel is None or kernel == 'p':
+            sum = np.dot(np.squeeze(alpha[sv][:, None] * y[sv][:, None]),
+                         polynomial_kernel(x[sv], x_prime, q, zeta, gamma))
+        elif kernel == 'g':
+            sum = np.dot(np.squeeze(alpha[sv][:, None] * y[sv][:, None]),
+                         gaussian_kernel(x[sv], x_prime, gamma))
+        return sum
+
+    b = y[free_sv[0]] - kernel_sum(x, y, sv, alpha, x[free_sv[0]], kernel)
+    return kernel_sum(x, y, sv, alpha, x_prime, kernel) + b
+
+
+def draw_decision_boundary(x, y, sv, free_sv, alpha):
+    offset = 1e-2
+    x1 = np.arange(-1.0, 1.0, offset)
+    x2 = x1
+    x_print = np.zeros((x1.shape[0], 2))
+
+    for index, i in enumerate(x1):
+        for j in x2:
+            x_prime = np.array([i, j])
+            a = abs(kernel_score(x, y, sv, free_sv, alpha, x_prime))
+            print(a)
+            if a < 1e-2:
+                x_print[index] = x_prime
+                print(x_prime)
+                break
+
+    print(x_print)
+    plt.scatter(x_print[:, 0], x_print[:, 1], marker='.')
 
 
 def unit_test():
@@ -76,9 +111,13 @@ def unit_test():
     pla_w, pla_b = ps.get_pla_weight_bias(x, y)
     ps.wbline(pla_w, pla_b, fmt=":")
 
-    _, sv, free_sv, svm_w, svm_b = svm_soft_margin_dual(x, y, c=10)
+    alpha, sv, free_sv = svm_soft_margin_dual(x, y, c=10)
+    svm_w = np.squeeze((alpha[sv][:, None] * y[sv][:, None]).T.dot(x[sv]))
+    svm_b = y[free_sv[0]] - np.dot(svm_w, x[free_sv[0]])
     ps.wbline(svm_w, svm_b, fmt="--")
     ps.print_support_vector(x, sv, free_sv)
+
+    draw_decision_boundary(x, y, sv, free_sv, alpha)
 
     plt.show()
 
