@@ -33,11 +33,13 @@ class SVM:
         self.q = q
         self.zeta = zeta
         self.gamma = gamma
-        # Lagrange multipliers, training sample feature and class of support vectors
+        # Index, Lagrange multipliers, training sample feature and class of support vectors
+        self.sv = None
         self.sv_alpha = None
         self.sv_x = None
         self.sv_y = None
         # and these stuff of free support vectors
+        self.free_sv = None
         self.free_sv_alpha = None
         self.free_sv_x = None
         self.free_sv_y = None
@@ -69,7 +71,7 @@ class SVM:
 
         def gaussian_kernel():
             """dot(NxD, DxN) = NxN"""
-            ns = np.linalg.norm(self.train_x, 2) ** 2
+            ns = np.linalg.norm(self.train_x, axis=1) ** 2
             return np.exp(-self.gamma * (ns[:, None] + ns[None, :] - 2 * np.dot(self.train_x, self.train_x.T)))
 
         if self.kernel is None or self.kernel == 'p':
@@ -95,14 +97,14 @@ class SVM:
         sol = solvers.qp(Q, p, G, h, A, b)
 
         alpha = np.squeeze(sol['x'])
-        sv = np.squeeze(np.where(self.alpha > SVM.EPSILON))
-        free_sv = np.squeeze(np.where((self.alpha > SVM.EPSILON) & (self.alpha / self.c < 0.99)))
-        self.sv_alpha = alpha[sv]
-        self.sv_x = self.train_x[sv]
-        self.sv_y = self.train_y[sv]
-        self.free_sv_alpha = alpha[free_sv]
-        self.free_sv_x = self.train_x[free_sv]
-        self.free_sv_y = self.train_y[free_sv]
+        self.sv = np.squeeze(np.where(alpha > SVM.EPSILON))
+        self.free_sv = np.squeeze(np.where((alpha > SVM.EPSILON) & (alpha / self.c < 0.99)))
+        self.sv_alpha = alpha[self.sv]
+        self.sv_x = self.train_x[self.sv]
+        self.sv_y = self.train_y[self.sv]
+        self.free_sv_alpha = alpha[self.free_sv]
+        self.free_sv_x = self.train_x[self.free_sv]
+        self.free_sv_y = self.train_y[self.free_sv]
 
     def predict(self, x_predict):
         """
@@ -116,7 +118,7 @@ class SVM:
 
         def gaussian_kernel(x):
             """dot(SV_Num x D, Dx1) = SV_Num x 1"""
-            return np.exp(-self.gamma * np.linalg.norm(self.sv_x - x, 2) ** 2)
+            return np.exp(-self.gamma * np.linalg.norm(self.sv_x - x, axis=1) ** 2)
 
         def kernel_sum(x):
             """dot(1 x SV_Num, SV_Num x 1) = 1"""
@@ -129,37 +131,47 @@ class SVM:
         predict_score = kernel_sum(x_predict) + b
         return sign(predict_score), predict_score
 
-    def draw_decision_boundary(self, x1_low=-1.0, x1_hi=1.0, x2_low=-1.0, x2_hi=1.0, offset = 1e-2):
+    def draw_decision_boundary(self, x1_low=-1.0, x1_hi=1.0, x2_low=-1.0, x2_hi=1.0, offset=1e-2):
         x1_list = np.arange(x1_low, x1_hi, offset)
         x2_list = np.arange(x2_low, x2_hi, offset)
-        boundary = np.zeros((x1.shape[0], 2))
+        boundary = np.zeros((x1_list.shape[0], 2))
+        upper_bound = np.zeros(boundary.shape)
+        lower_bound = np.zeros(boundary.shape)
 
         for index, x1 in enumerate(x1_list):
             for x2 in x2_list:
                 x = np.array([x1, x2])
                 _, predict_score = self.predict(x)
-                if abs(predict_score) < SVM.EPSILON:
+                if abs(predict_score) < 1e-1:
                     boundary[index] = x
-                    break
+                if abs(predict_score - 1) < 1e-1:
+                    upper_bound[index] = x
+                if abs(predict_score + 1) < 1e-1:
+                    lower_bound[index] = x
 
-        plt.scatter(boundary[:, 0], boundary[:, 1], marker='.')
+        plt.scatter(boundary[:, 0], boundary[:, 1], s=8, marker='.')
+        plt.scatter(upper_bound[:, 0], upper_bound[:, 1], s=2, c='k', marker='.')
+        plt.scatter(lower_bound[:, 0], lower_bound[:, 1], s=2, c='k', marker='.')
 
+    def draw_support_vector(self):
+        plt.scatter(self.sv_x[:, 0], self.sv_x[:, 1], s=256, edgecolor='k', facecolor='None', marker='s')
+        plt.scatter(self.free_sv_x[:, 0], self.free_sv_x[:, 1], s=256, edgecolor='k', facecolor='None', marker='*')
 
-if __name__ == '__main__':
-
+    @staticmethod
     def unit_test():
-        N = 100
+        N = 10
         target_w, target_b = ps.generate_target_weight_bias()
         x, y = ps.generate_samples(N, target_w, target_b)
         ps.print_sample(x, y)
         ps.wbline(target_w, target_b)
 
         pla_w, pla_b = ps.get_pla_weight_bias(x, y)
-        ps.wbline(pla_w, pla_b, fmt=":")
+        ps.wbline(pla_w, pla_b, fmt="--")
 
-        #TODO: load data, iniitialize SVM instance
-        #fit()
-        #draw_decision_boundary()
+        svm = SVM(x, y, x, y, c=1, kernel='p', q=2, zeta=1)
+        svm.fit()
+        svm.draw_decision_boundary()
+        svm.draw_support_vector()
 
         plt.show()
 
@@ -173,4 +185,5 @@ if __name__ == '__main__':
         plt.show()
         '''
 
-    unit_test()
+if __name__ == '__main__':
+    SVM.unit_test()
