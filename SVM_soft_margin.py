@@ -142,11 +142,11 @@ class SVM:
             for x2 in x2_list:
                 x = np.array([x1, x2])
                 _, predict_score = self.predict(x)
-                if abs(predict_score) < 1e-1:
+                if abs(predict_score) < offset * 2:
                     boundary[index] = x
-                if abs(predict_score - 1) < 1e-1:
+                if abs(predict_score - 1) < offset * 2:
                     upper_bound[index] = x
-                if abs(predict_score + 1) < 1e-1:
+                if abs(predict_score + 1) < offset * 2:
                     lower_bound[index] = x
 
         plt.scatter(boundary[:, 0], boundary[:, 1], s=8, marker='.')
@@ -159,7 +159,7 @@ class SVM:
 
     @staticmethod
     def unit_test():
-        N = 10
+        N = 100
         target_w, target_b = ps.generate_target_weight_bias()
         x, y = ps.generate_samples(N, target_w, target_b)
         ps.print_sample(x, y)
