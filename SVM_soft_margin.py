@@ -1,3 +1,11 @@
+"""
+SVM soft margin dual problem with kernel function
+- implemented with cvxopt quadratic programming library
+- has some trouble in choosing epsilon to distinguish support vectors
+- also the test result is not correct comparing with sklearn SVC and LIBSVM
+- but it is a good reference for SVM implementation details
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
@@ -11,7 +19,6 @@ class SVM:
 
     def __init__(self, train_x, train_y, test_x, test_y, c=1.0, kernel=None, q=1, zeta=0, gamma=1):
         """
-        SVM soft margin dual problem with kernel function
         :param train_x:
         :param train_y:
         :param test_x:
@@ -41,6 +48,8 @@ class SVM:
         self.free_sv_alpha = None
         self.free_sv_x = None
         self.free_sv_y = None
+        # weight is not available in kernel SVM
+        self.b = None
 
     def fit(self, verbose=False):
         """
@@ -54,7 +63,7 @@ class SVM:
             return np.power(self.zeta + self.gamma * np.dot(self.train_x, self.train_x.T), self.q)
 
         def gaussian_kernel():
-            """(N, D) x (D, N) = (N, N)"""
+            """(N, (N)) + ((N), N) - (N, D) x (D, N) = (N, N)"""
             ns = np.linalg.norm(self.train_x, axis=1) ** 2
             return np.exp(-self.gamma * (ns[:, None] + ns[None, :] - 2 * np.dot(self.train_x, self.train_x.T)))
 
@@ -63,7 +72,7 @@ class SVM:
         elif self.kernel == 'g':
             k = gaussian_kernel()
 
-        epsilon = 1e-4
+
         N = len(self.train_y)
         Q = matrix(np.outer(self.train_y, self.train_y) * k)
         p = matrix(-1.0, (N, 1))
@@ -82,8 +91,9 @@ class SVM:
         sol = solvers.qp(Q, p, G, h, A, b)
 
         alpha = np.squeeze(sol['x'])
+        epsilon = 1e-4
         self.sv = np.squeeze(np.where(alpha > epsilon))
-        self.free_sv = np.squeeze(np.where((alpha > epsilon) & (alpha / self.c < 0.99)))
+        self.free_sv = np.squeeze(np.where((alpha > epsilon) & (self.c - alpha > epsilon)))
         self.sv_alpha = alpha[self.sv]
         self.sv_x = self.train_x[self.sv]
         self.sv_y = self.train_y[self.sv]
@@ -112,12 +122,13 @@ class SVM:
             elif self.kernel == 'g':
                 return np.dot(self.sv_alpha * self.sv_y, gaussian_kernel(x))
 
-        b = 0.0
-        free_sv_num = len(self.free_sv)
-        for i in range(free_sv_num):
-            b += (self.free_sv_y[i] - kernel_sum(self.free_sv_x[i])) / free_sv_num
-
-        predict_score = kernel_sum(x_predict) + b
+        if self.b is None:
+            b = 0.0
+            free_sv_num = len(self.free_sv)
+            for i in range(free_sv_num):
+                b += (self.free_sv_y[i] - kernel_sum(self.free_sv_x[i])) / free_sv_num
+            self.b = b
+        predict_score = kernel_sum(x_predict) + self.b
         return sign(predict_score), predict_score
 
     def draw_decision_boundary(self, x0_low=-1.0, x0_hi=1.0, x1_low=-1.0, x1_hi=1.0, M=200):
@@ -191,30 +202,78 @@ def plot_samples(x, y):
     plt.figure(figsize=(10, 8))
     sc = plt.scatter(x[:, 0], x[:, 1], s=32, c=y, cmap=cm.get_cmap('Set1'), marker='*')
     plt.colorbar(sc)
+    plt.show()
 
 
-def ova_transform(y, i):
+def ova(y, i):
     y_ova = y.copy()
     y_ova[y_ova != i] = -1
+    y_ova[y_ova == i] = 1
     return y_ova
+
+
+def ovo(x, y, i, j):
+    x_ovo = x[(y == i) | (y == j)].copy()
+    y_ovo = y[(y == i) | (y == j)].copy()
+    y_ovo[y_ovo == j] = -1
+    y_ovo[y_ovo == i] = 1
+    return x_ovo, y_ovo
+
+
+def main():
+    train_file = "./features.train"
+    test_file = "./features.test"
+    train_x, train_y = load_samples(train_file)
+    test_x, test_y = load_samples(test_file)
+    # plot_samples(train_x, train_y)
+
+    ova_p_kernel = True
+    ovo_p_kernel = False
+    ovo_g_kernel = False
+
+    # one versus all / polynomial kernel
+    if ova_p_kernel:
+        c = 0.01
+        k = 'p'
+        q = 2
+        z = 1
+        for i in [2, 4, 6, 8]:
+            svm = SVM(train_x, ova(train_y, i), test_x, ova(test_y, i), c=c, kernel=k, q=q, zeta=z)
+            svm.fit(verbose=True)
+            print("%d versus all: c=%.2e, kernel=%s, q=%d ,zeta=%d, E_in=%.3f, E_out=%.3f, sv_num=%d, free_sv_num=%d" %
+                  (i, c, k, q, z, svm.e_in(), svm.e_out(), len(svm.sv), len(svm.free_sv)))
+
+    # one versus one / polynomial kernel
+    if ovo_p_kernel:
+        k = 'p'
+        q = 2
+        z = 1
+        c_list = [1e-4, 1e-3, 1e-2, 1e-1, 1]
+        q_list = [2, 5]
+        for q in q_list:
+            for c in c_list:
+                train_x_ovo, train_y_ovo = ovo(train_x, train_y, 1, 5)
+                test_x_ovo, test_y_ovo = ovo(test_x, test_y, 1, 5)
+                svm = SVM(train_x_ovo, train_y_ovo, test_x_ovo, test_y_ovo, c=c, kernel=k, q=q, zeta=z)
+                svm.fit(verbose=False)
+                print("1 versus 5: c=%.2e, kernel=%s, q=%d ,zeta=%d, E_in=%.3f, E_out=%.3f, sv_num=%d, free_sv_num=%d" %
+                      (c, k, q, z, svm.e_in(), svm.e_out(), len(svm.sv), len(svm.free_sv)))
+
+    # one versus one / gaussian kernel
+    if ovo_g_kernel:
+        k = 'g'
+        g = 1
+        c_list = [1e-2, 1, 1e2, 1e4, 1e6]
+        for c in c_list:
+            train_x_ovo, train_y_ovo = ovo(train_x, train_y, 1, 5)
+            test_x_ovo, test_y_ovo = ovo(test_x, test_y, 1, 5)
+            svm = SVM(train_x_ovo, train_y_ovo, test_x_ovo, test_y_ovo, c=c, kernel=k, gamma=g)
+            svm.fit(verbose=False)
+            print("1 versus 5: c=%.2e, kernel=%s, gamma=%d, E_in=%.3f, E_out=%.3f, sv_num=%d, free_sv_num=%d" %
+                  (c, k, g, svm.e_in(), svm.e_out(), len(svm.sv), len(svm.free_sv)))
 
 
 if __name__ == '__main__':
     #SVM.unit_test()
 
-    train_file = "./features.train"
-    test_file = "./features.test"
-    train_x, train_y = load_samples(train_file)
-    test_x, test_y = load_samples(test_file)
-    #plot_samples(train_x, train_y)
-
-    # one vs.all experiments
-    c = 0.01
-    k = 'p'
-    q = 2
-    z = 1
-    for i in range(10):
-        svm = SVM(train_x, ova_transform(train_y, i), test_x, ova_transform(test_y, i), c=c, kernel=k, q=q, zeta=z)
-        svm.fit(verbose=False)
-        print("c=%.2e, kernel=%s, q=%d ,zeta=%d | %d vs. all | E_in=%.3f, E_out=%.3f sv_num=%d" %
-              (c, k, q, z, i, svm.e_in(), svm.e_out(), len(svm.sv)))
+    main()
