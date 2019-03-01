@@ -1,14 +1,14 @@
 # SVM summary
 
-### [SVM primal problem](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/201_handout.pdf)
-#### What
+## [SVM primal problem](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/201_handout.pdf)
+### What
 - A linear binary classification model whic can find the "fattest" hyperplane as decision boundary
-#### Why
+### Why
 - Simple but powerful model with good explainability
 - Better generalization performance than other linear model because of large margin (large margin -> limited number of hyperplanes -> smaller VC dimension -> good resistance to overfitting)
 - Fast to train (using LIBLINEAER, LIBSVM, or sklearn.SVC)
 - Light model with sparse solution (number of support vectors are usually very small, and they are the only relevant data instances for computing weight and bias of hyperplane) -> easy for deployment and predict
-#### How
+### How
 - Maximize the distance of the data instance that is closest to the hyperplane 
   - get the unit normal vector of deciding hyperplane (**w**)
   - get the difference vector (**v**) between the data instance and its intersection with the hyperplane
