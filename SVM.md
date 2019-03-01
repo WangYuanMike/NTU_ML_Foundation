@@ -1,8 +1,18 @@
-# Support Vector Machine(SVM) summary
+# Support Vector Machine(SVM)
+
+## Table of Contents
+[SVM primal problem](#svm-primal-problem)
+[SVM dual problem](#svm-dual-problem)
+[Kernel SVM](#kernel-svm)
+[Soft margin SVM](#soft-margin-svm)
+[Kernel logisitic regression & Probablistic SVM](#kernel-logistic-regression-&-probablistic-svm]
+[Kernel ridge regression & SVR](#kernel-ridge-regression-&-svr]
+[Summary](#summary)
+[LIBSVM](#libsvm)
 
 ## [SVM primal problem](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/201_handout.pdf)
 ### What
-- Support Vector Machine is a linear binary classification model whic can find the "fattest" hyperplane as decision boundary
+- Support Vector Machine is a linear binary classification model which can find the "fattest" hyperplane as decision boundary
 - Support Vector is the data instance which lie on the margin, i.e. the one which has the minimum distance to the hyperplane
 ### Why
 - Simple but powerful model with good explainability
@@ -77,14 +87,28 @@ TODO: add image
 TODO: add image
 
 ### When and Where
-- no practical use case, see details in Cons below
+- This is a theoretical middle step for more advanced model. No practical use case, see details in Cons below
 
 ### Cons
-- This model successfully transforms number of to-be-optimized variables from number of features (could be infinite in the mapped feature space) into number of data instances. But it still does not completely solve the complexity issue of handling high dimensional features, because there is an inner product between two high dimensional instances needs to be computed in the dual problem, which leads to the next chapter **kernel SVM**
+- This model successfully transforms the number of to-be-optimized variables from number of features (could be infinite in the mapped feature space) into number of data instances. But it still does not completely solve the complexity issue of handling high dimensional features, because there is an inner product between two high dimensional instances needs to be computed in the dual problem, which leads to the next chapter **kernel SVM**
 
 ## [Kernel SVM](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/203_handout.pdf)
-## What
-## Why
-## How
+### What
+- Kernel function is a shortcut to compute inner product of high dimensional vectors by computing a function of the two corresponding low dimensional vectors, i.e. original feature vectors
+### Why
+
+### How
 
 ## [Soft margin SVM](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/204_handout.pdf)
+
+## [Kernel logisitic regression & Probablistic SVM](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/205_handout.pdf)
+
+## [Kernel ridge regression & SVR](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/206_handout.pdf)
+
+## Summary
+
+## [LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvm/)
+### Paper and Guide
+[LIBSVM: A Library for Support Vector Machines](https://www.csie.ntu.edu.tw/~cjlin/papers/libsvm.pdf)
+[LIBLINEAR: A Library for Large Linear Classification](https://www.csie.ntu.edu.tw/~cjlin/papers/liblinear.pdf)
+[A Practical Guide to Support Vector Classification](https://www.csie.ntu.edu.tw/~cjlin/papers/guide/guide.pdf)
