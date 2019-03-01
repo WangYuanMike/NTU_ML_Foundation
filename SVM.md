@@ -96,8 +96,23 @@ TODO: add image
 ### What
 - Kernel function is a shortcut to compute inner product of high dimensional vectors by computing a function of the two corresponding low dimensional vectors, i.e. original feature vectors
 ### Why
-
+- With kernel function, SVM dual problem with high dimensional feature space could be solved within the time complexity of original features' lower dimensional space
 ### How
+- The common kernel functions are below:
+   - linear kernel   TODO: add image
+   - polynomial kernel  TODO: add image
+   - rbf (gaussian) kernel TODO: add image
+- Necessary and sufficient condition for valid kernel functions needs is **Mercer's condition** -> K matrix needs to be postive semi definite, but some kernel function which does not fulfill Mercer's condition may also work in practice
+### When and Where
+- Equipped with kernel function, SVM dual problem is the first practical **hard margin SVM**
+- The linear kernel does not map feature vector at all, so it is valid for those scenarios mentioned in [SVM primal problem](#svm-primal-problem), and it should be tried first, but normally with **soft margin SVM**
+- According to the [LIBSVM practical guide](https://www.csie.ntu.edu.tw/~cjlin/papers/guide/guide.pdf), one should try rbf kernel after linear model, because it has just one hyperparameter (gamma) to tune and it maps feature into infinite dimensional space for linear separation
+- The polynomial kernel should be tried with lower degree so as to resist overfitting
+### Cons
+- Linear kernel is safe but restricted, esp. with hard margin SVM
+- Rbf kernel is mysterious, slow, and maybe too powerful
+- Polynomial kernel has 3 hyperparameters to tune, and numerically difficult for high degree
+- Hard margin SVM is still not good enough, because it cannot tolerate any data instance violating the margin, causing one to use an unnecessary high dimensional space for separate instances linearly, which in turn may generate a too sophisticated (easy to overfit) decision boundary. The solution is next section **Soft margin SVM**.
 
 ## [Soft margin SVM](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/204_handout.pdf)
 
@@ -109,6 +124,6 @@ TODO: add image
 
 ## [LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvm/)
 ### Paper and Guide
-[LIBSVM: A Library for Support Vector Machines](https://www.csie.ntu.edu.tw/~cjlin/papers/libsvm.pdf)
-[LIBLINEAR: A Library for Large Linear Classification](https://www.csie.ntu.edu.tw/~cjlin/papers/liblinear.pdf)
-[A Practical Guide to Support Vector Classification](https://www.csie.ntu.edu.tw/~cjlin/papers/guide/guide.pdf)
+[LIBSVM: A Library for Support Vector Machines](https://www.csie.ntu.edu.tw/~cjlin/papers/libsvm.pdf)  
+[LIBLINEAR: A Library for Large Linear Classification](https://www.csie.ntu.edu.tw/~cjlin/papers/liblinear.pdf)  
+[A Practical Guide to Support Vector Classification](https://www.csie.ntu.edu.tw/~cjlin/papers/guide/guide.pdf)  
