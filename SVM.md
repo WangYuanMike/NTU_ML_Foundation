@@ -2,12 +2,13 @@
 
 ## [SVM primal problem](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/201_handout.pdf)
 ### What
-- A linear binary classification model whic can find the "fattest" hyperplane as decision boundary
+- Support Vector Machine(SVM) is a linear binary classification model whic can find the "fattest" hyperplane as decision boundary
+- Support Vector is the data instance which lie on the margin, i.e. the one which has the minimum distance to the hyperplane
 ### Why
 - Simple but powerful model with good explainability
 - Better generalization performance than other linear model because of large margin (large margin -> limited number of hyperplanes -> smaller VC dimension -> good resistance to overfitting)
 - Fast to train (using LIBLINEAER, LIBSVM, or sklearn.SVC)
-- Light model with sparse solution (number of support vectors are usually very small, and they are the only relevant data instances for computing weight and bias of hyperplane) -> easy for deployment and predict
+- Linear model -> easy to deploy and predict
 ### How
 - Maximize the distance of the data instance that is closest to the hyperplane 
   - get the unit normal vector of deciding hyperplane (**w**)
@@ -63,16 +64,27 @@ TODO: add image
 
 TODO: add image
 
-- Use QP package to solve the problem
+- Use QP package to solve the problem and get the optimal alpha
 
+TODO: add image
+
+- Use **KKT optimality condition** (the sufficient and necessary condition for optimality) to compute weight and bias:
+  - primal feasible (not relevant with computing weight and bias)
+  - dual feasible (not relevant with computing weight and bias)
+  - dual-inner optimal -> **only support vectors' alpha are bigger than 0** -> only need support vector to compute weight
+  - primal-inner optimal (also called **complementary slackness**) -> use any support vector to compute bias or take average of support vectors to avoid numerical errors
+  
 TODO: add image
 
 ### When and Where
 - no practical use case, see details in Cons below
 
 ### Cons
-- This model successfully transforms number of to-be-optimized variables from number of features (could be infinite in the mapped feature space) into number of data instances. But it still does not completely solve the complexity issue of handling high dimensional features, because there is an inner product between two high dimensional instances needs to be computed in the dual problem, which leads to the next chapter **kernel function**
+- This model successfully transforms number of to-be-optimized variables from number of features (could be infinite in the mapped feature space) into number of data instances. But it still does not completely solve the complexity issue of handling high dimensional features, because there is an inner product between two high dimensional instances needs to be computed in the dual problem, which leads to the next chapter **kernel SVM**
 
-## [Kernel function]()
+## [Kernel SVM](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/203_handout.pdf)
+## What
+## Why
+## How
 
 ## [Soft margin SVM](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/204_handout.pdf)
