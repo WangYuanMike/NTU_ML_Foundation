@@ -1,19 +1,19 @@
 # Support Vector Machine(SVM)
 
 ## Table of Contents
-[SVM primal problem](#svm-primal-problem)
-[SVM dual problem](#svm-dual-problem)
-[Kernel SVM](#kernel-svm)
-[Soft margin SVM](#soft-margin-svm)
-[Kernel logisitic regression & Probablistic SVM](#kernel-logistic-regression-&-probablistic-svm]
-[Kernel ridge regression & SVR](#kernel-ridge-regression-&-svr]
-[Summary](#summary)
-[LIBSVM](#libsvm)
-
+[SVM primal problem](#svm-primal-problem)  
+[SVM dual problem](#svm-dual-problem)  
+[Kernel SVM](#kernel-svm)  
+[Soft margin SVM](#soft-margin-svm)  
+[Probabilistic SVM](#probabilistic-svm)  
+[Support Vector Regression](#support-vector-regression)  
+[Summary](#summary)  
+[LIBSVM](#libsvm)  
+   
 ## [SVM primal problem](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/201_handout.pdf)
 ### What
-- Support Vector Machine is a linear binary classification model which can find the "fattest" hyperplane as decision boundary
-- Support Vector is the data instance which lie on the margin, i.e. the one which has the minimum distance to the hyperplane
+- **Support Vector Machine** is a linear binary classification model which can find the "fattest" hyperplane as decision boundary
+- **Support Vector** is the data instance which lie on the margin, i.e. the one which has the minimum distance to the hyperplane
 ### Why
 - Simple but powerful model with good explainability
 - Better generalization performance than other linear model because of large margin (large margin -> limited number of hyperplanes -> smaller VC dimension -> good resistance to overfitting)
@@ -101,9 +101,9 @@ TODO: add image
 
 ## [Soft margin SVM](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/204_handout.pdf)
 
-## [Kernel logisitic regression & Probablistic SVM](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/205_handout.pdf)
+## [Probabilistic SVM](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/205_handout.pdf)
 
-## [Kernel ridge regression & SVR](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/206_handout.pdf)
+## [Support Vector Regression](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/206_handout.pdf)
 
 ## Summary
 
