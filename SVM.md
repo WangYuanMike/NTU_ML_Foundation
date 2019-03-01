@@ -112,7 +112,7 @@ TODO: add image
 - Linear kernel is safe but restricted, esp. with hard margin SVM
 - Rbf kernel is mysterious, slow, and maybe too powerful
 - Polynomial kernel has 3 hyperparameters to tune, and numerically difficult for high degree
-- Hard margin SVM is still not good enough, because it cannot tolerate any data instance violating the margin, causing one to use an unnecessary high dimensional space for separate instances linearly, which in turn may generate a too sophisticated (easy to overfit) decision boundary. The solution is next section **Soft margin SVM**.
+- Hard margin SVM is still not good enough, because it cannot tolerate any data instance violating the margin, causing one to use an unnecessary high dimensional space for separating instances linearly, which in turn may generate a too sophisticated (easy to overfit) decision boundary. The solution is the next section **Soft margin SVM**.
 
 ## [Soft margin SVM](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/204_handout.pdf)
 
