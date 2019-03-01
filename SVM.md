@@ -1,8 +1,8 @@
-# SVM summary
+# Support Vector Machine(SVM) summary
 
 ## [SVM primal problem](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/201_handout.pdf)
 ### What
-- Support Vector Machine(SVM) is a linear binary classification model whic can find the "fattest" hyperplane as decision boundary
+- Support Vector Machine is a linear binary classification model whic can find the "fattest" hyperplane as decision boundary
 - Support Vector is the data instance which lie on the margin, i.e. the one which has the minimum distance to the hyperplane
 ### Why
 - Simple but powerful model with good explainability
