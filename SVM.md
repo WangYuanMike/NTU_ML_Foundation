@@ -103,9 +103,15 @@ A kernel SVM which can tolerate some data instances violating the margin (even v
 The reason has been described in the Cons of kernel SVM above
 ### How
 - Add Xi (violation distance, which must be >= 0) of each data instance to the minimization objective in SVM primal problem, and adjust the constraints accordingly
-- A hyperparameter **C** is added to the violation part in the minimization objective
+- A hyperparameter **C** is added as the coefficient of the violation part in the minimization objective
    - A smaller C means the model can tolerate more violation
    - The default value of C is usually set to 1
+TODO: add image
+- After training, there are 3 types of data instances:
+   - **alpha == 0 -> non support vectors**, i.e. data instances which are classified correctly by the decision boundary and do not lie on the margin. These data instances are not useful in prediction, thus can be abandoned from memory after training
+   - **alpha == C -> bounded support vectors**, i.e. data instances which violates the margin, they are useful in computing the weight-feature inner product for prediction when kernel function is used, therefore must be kept in memory after training
+   - **0 < alpha < C -> free support vectors**, i.e. data instances which are classified correclty and lie on the margin. User must choose anyone of these data instances to compute the bias when kernel function is used.
+TODO: add image
 - Soft margin SVM can be viewed as a linear model error measurement(**max(0, violation distance)**) plus L2 regularization (the original SVM minimization objective) 
 TODO: Add image 
 ### When and Where
