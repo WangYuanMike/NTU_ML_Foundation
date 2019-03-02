@@ -53,7 +53,8 @@ TODO: add image
 - Reason for the equivalence: 
    - **For those weight and bias which generates a positive constraint (those do not fulfill the constraints)**, the maximization will make the inner function exploded to positive infinite， which in turn will make these weight and bias eliminated by the outer minimization step
    - **For those weight and bias which generate a constraint equals zero**, alpha can be any value which >= 0(these corresponding data instances are the **Support Vector**), and only the minimization objective in the original problem will be kept
-   - **For those weight and bias which generate a negative constraint**, the maximization will make alpha equals 0, which in turn will also keep the minimization objective of the original problem  
+   - **For those weight and bias which generate a negative constraint**, the maximization will make alpha equals 0, which in turn will also keep the minimization objective of the original problem
+   - Both the zero and the negative case forms the **complementary slackness** condition in **KKT optimality condtion** below, i.e. either alpha or the constraint (or both) needs to be zero 
 TODO: add image  
 - When below conditions are met, the optimal of the primal min-max problem is equal to the one of the dual max-min problem.
   - primal problem is convex
