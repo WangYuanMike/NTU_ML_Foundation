@@ -8,7 +8,7 @@
 [Probabilistic SVM](#probabilistic-svm)  
 [Support Vector Regression](#support-vector-regression)  
 [Summary](#summary)  
-[LIBSVM](#libsvm)  
+[Appendix LIBSVM](#appendix-libsvm)  
    
 ## [SVM primal problem](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/201_handout.pdf)
 ### What
@@ -126,9 +126,9 @@ TODO: Add image
 ### How
 ### When and Where
 ### Cons
-## Summary
+## [Summary](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/206_handout.pdf)
 TODO: add image
-## [LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvm/)
+## [Appendix LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvm/)
 ### Paper and Guide
 [LIBSVM: A Library for Support Vector Machines](https://www.csie.ntu.edu.tw/~cjlin/papers/libsvm.pdf)  
 [LIBLINEAR: A Library for Large Linear Classification](https://www.csie.ntu.edu.tw/~cjlin/papers/liblinear.pdf)  
