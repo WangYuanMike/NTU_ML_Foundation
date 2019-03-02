@@ -52,8 +52,8 @@ TODO: add image
 TODO: add image  
 - Reason for the equivalence: 
    - **For those weight and bias which generates a positive constraint (those do not fulfill the constraints)**, the maximization will make the inner function exploded to positive infinite， which in turn will make these weight and bias eliminated by the outer minimization step
-   - **For those weight and bias which generate a constraint equals zero**, alpha can be any value which >= 0(these corresponding data instances are the **Support Vector**), and only the minimization object in the original problem will be kept
-   - **For those weight and bias which generate a negative constraint**, the maximization will make alpha equals 0, which in turn will also keep the minimization object of the original problem  
+   - **For those weight and bias which generate a constraint equals zero**, alpha can be any value which >= 0(these corresponding data instances are the **Support Vector**), and only the minimization objective in the original problem will be kept
+   - **For those weight and bias which generate a negative constraint**, the maximization will make alpha equals 0, which in turn will also keep the minimization objective of the original problem  
 TODO: add image  
 - When below conditions are met, the optimal of the primal min-max problem is equal to the one of the dual max-min problem.
   - primal problem is convex
@@ -101,12 +101,16 @@ A kernel SVM which can tolerate some data instances violating the margin (even v
 ### Why
 The reason has been described in the Cons of kernel SVM above
 ### How
-- Add max(0, violation distance) of each data instance to the minimization object in SVM primal problem, and add violation distance >= 0 as new constraints
-TODO: Add image
-- Transform the max(0, violation distance) to 
+- Add Xi (violation distance, which must be >= 0) of each data instance to the minimization objective in SVM primal problem, and adjust the constraints accordingly
+- A hyperparameter **C** is added to the violation part in the minimization objective
+   - A smaller C means the model can tolerate more violation
+   - The default value of C is usually set to 1
+- Soft margin SVM can be viewed as an error measurement(**max(0, violation distance)**) plus L2 regularization (the original SVM minimization objective) . 
+TODO: Add image 
 ### When and Where
+- Soft margin SVM is the first practical SVM model which could handle most of the classfication problem effectively and efficiently. In LIBSVM and other documents, it is usually called **C-SVM**
 ### Cons
-
+- 
 ## [Probabilistic SVM](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/205_handout.pdf)
 
 ## [Support Vector Regression](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/206_handout.pdf)
