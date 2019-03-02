@@ -24,14 +24,9 @@
   - get the unit normal vector of deciding hyperplane (**w**)
   - get the difference vector (**v**) between the data instance and its intersection with the hyperplane
   - computer the inner product between **w** and **v** to get the margin
-  - maximize the margin
-
-TODO: add image
-
-- Solve an equivalent quardratic programming problem (plenty of algorithms and packages to solve QP problem)
-
-TODO: add image
-
+  - maximize the margin  
+TODO: add image  
+- Solve an equivalent quardratic programming problem (plenty of algorithms and packages to solve QP problem)  
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_primal.png)
 ### When and Where
 - Training data are linear seperable (but you do not know this info before training)
@@ -51,47 +46,34 @@ TODO: add image
 - But the complexity of solving primal QP problem depends on the number of features, which means higher dimensional feature would cause much higher complexity to solve the problem, sometimes even impossible, e.g. infinite dimension
 - The solution is to solve its Lagrange dual problem, because it transforms variables to optimize from weight and bias to the Lagrange multipliers of data instances, i.e. from very high (or inifite) dimension to rather low (or finite) dimension
 ### How
-- Use function phi to map current feature vector into higher dimensional space
-
-TODO: add image
-
-- Create the Lagrange function and transform the primal problem into an equivalent **min-max** optimization problem without constraints
-
-TODO: add image
-
-- Reason for the equivalence: For those weight and bias which generates a positive constaint (those does not fulfill the constraints), the maximization will make the inner function exploded to positive infinite， which in turn will make these weight and bias eliminated by the outer minimization step.
-
-TODO: add image
-
+- Use function phi to map current feature vector into higher dimensional space  
+TODO: add image  
+- Create the Lagrange function and transform the primal problem into an equivalent **min-max** optimization problem without constraints (actually Lagrange multipliers alpha >= 0 become the new constraints of the Lagrange functions)  
+TODO: add image  
+- Reason for the equivalence: 
+   - **For those weight and bias which generates a positive constraint (those do not fulfill the constraints)**, the maximization will make the inner function exploded to positive infinite， which in turn will make these weight and bias eliminated by the outer minimization step
+   - **For those weight and bias which generate a constraint equals zero**, alpha can be any value which >= 0(these corresponding data instances are the **Support Vector**), and only the minimization object in the original problem will be kept
+   - **For those weight and bias which generate a negative constraint**, the maximization will make alpha equals 0, which in turn will also keep the minimization object of the original problem  
+TODO: add image  
 - When below conditions are met, the optimal of the primal min-max problem is equal to the one of the dual max-min problem.
   - primal problem is convex
   - constraints are linear
-  - primal problem is feasible (linear separable in the mapped high dimensional space)
-
-TODO: add image
-
-- Take gradient of Lagrange function with respect to weight, bias, and alpha, set these gradient to zero (condition for optimal solution) to get some relations between variables and some new constraints, and plug them back into the dual max-min problem to get a simple maximization QP problem
-
-TODO: add image
-
-- Use QP package to solve the problem and get the optimal alpha
-
-TODO: add image
-
+  - primal problem is feasible (linear separable in the mapped high dimensional space)  
+TODO: add image  
+- Take gradient of Lagrange function with respect to weight, bias, and alpha, set these gradient to zero (condition for optimal solution) to get some relations between variables and some new constraints, and plug them back into the dual max-min problem to get a simple maximization QP problem  
+TODO: add image  
+- Use QP package to solve the problem and get the optimal alpha  
+TODO: add image  
 - Use **KKT optimality condition** (the sufficient and necessary condition for optimality) to compute weight and bias:
   - primal feasible (not relevant with computing weight and bias)
   - dual feasible (not relevant with computing weight and bias)
   - dual-inner optimal -> **only support vectors' alpha are bigger than 0** -> only need support vector to compute weight
-  - primal-inner optimal (also called **complementary slackness**) -> use any support vector to compute bias or take average of support vectors to avoid numerical errors
-  
-TODO: add image
-
+  - primal-inner optimal (also called **complementary slackness**) -> use any support vector to compute bias or take average of support vectors to avoid numerical errors  
+TODO: add image  
 ### When and Where
 - This is a theoretical middle step for more advanced model. No practical use case, see details in Cons below
-
 ### Cons
 - This model successfully transforms the number of to-be-optimized variables from number of features (could be infinite in the mapped feature space) into number of data instances. But it still does not completely solve the complexity issue of handling high dimensional features, because there is an inner product between two high dimensional instances needs to be computed in the dual problem, which leads to the next chapter **kernel SVM**
-
 ## [Kernel SVM](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/203_handout.pdf)
 ### What
 - Kernel function is a shortcut to compute inner product of high dimensional vectors by computing a function of the two corresponding low dimensional vectors, i.e. original feature vectors
@@ -112,9 +94,18 @@ TODO: add image
 - Linear kernel is safe but restricted, esp. with hard margin SVM
 - Rbf kernel is mysterious, slow, and maybe too powerful
 - Polynomial kernel has 3 hyperparameters to tune, and numerically difficult for high degree
-- Hard margin SVM is still not good enough, because it cannot tolerate any data instance violating the margin, causing one to use an unnecessary high dimensional space for separating instances linearly, which in turn may generate a too sophisticated (easy to overfit) decision boundary. The solution is the next section **Soft margin SVM**.
-
+- Hard margin SVM is still not good enough, because it cannot tolerate any data instance violating the margin, causing one to use an unnecessary high dimensional space for separating instances linearly, which in turn may generate a too sophisticated (easy to overfit) decision boundary. The solution is the next chapter **Soft margin SVM**.
 ## [Soft margin SVM](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/204_handout.pdf)
+### What
+A kernel SVM which can tolerate some data instances violating the margin (even violating the decision boundary)
+### Why
+The reason has been described in the Cons of kernel SVM above
+### How
+- Add max(0, violation distance) of each data instance to the minimization object in SVM primal problem, and add violation distance >= 0 as new constraints
+TODO: Add image
+- Transform the max(0, violation distance) to 
+### When and Where
+### Cons
 
 ## [Probabilistic SVM](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/205_handout.pdf)
 
