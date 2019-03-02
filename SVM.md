@@ -105,14 +105,14 @@ The reason has been described in the Cons of kernel SVM above
 - A hyperparameter **C** is added to the violation part in the minimization objective
    - A smaller C means the model can tolerate more violation
    - The default value of C is usually set to 1
-- Soft margin SVM can be viewed as an error measurement(**max(0, violation distance)**) plus L2 regularization (the original SVM minimization objective) .  
+- Soft margin SVM can be viewed as a linear model error measurement(**max(0, violation distance)**) plus L2 regularization (the original SVM minimization objective) 
 TODO: Add image 
 ### When and Where
 - Soft margin SVM is the first practical SVM model which could handle most of the classfication problem effectively and efficiently. In LIBSVM and some other packages, it is usually called **C-SVM**
 ### Cons
 - Soft margin SVM can only be used in binary classification. 
 - **For multi-class classification problem**, one needs to apply **ovo(one versus one) or ova(one versus all)** approach with Soft margin SVM
-- **For soft binary classificiation problem (when user needs to know a classification probability)**, one needs to use **Probabilistic SVM** or **Kernel Logistic Regression**
+- **For soft binary classificiation problem**(when user needs to know a classification probability), one needs to use **Probabilistic SVM** or **Kernel Logistic Regression**
 - **For regression problem**, one needs to use **Support Vector Regression** or **Kernel Ridge Regression**
 ## [Probabilistic SVM](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/205_handout.pdf)
 ### What
