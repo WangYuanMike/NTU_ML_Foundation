@@ -180,8 +180,10 @@ TODO: add image
 - Probability Estimate is different from Distribution Estimate.
 - Probability Estimate is to estimate the probability of being one class or the other, which is implemented by Probabilistic SVM
 - Distribution Estimate is to estimate the distribution of one class data, and use the distribution to decide whether a data belongs to this class. This is unsupervised learning approach used for outlier detection.
+### Multi-class classfication
+- Use ovo(one versus one) approach to elect champion among multiple classes
 ### Proposed procedure
-- Read the **[Practical Guide](https://www.csie.ntu.edu.tw/~cjlin/papers/guide/guide.pdf) to get start
+- Read the [Practical Guide](https://www.csie.ntu.edu.tw/~cjlin/papers/guide/guide.pdf) to get start
 ### Paper
 [LIBSVM: A Library for Support Vector Machines](https://www.csie.ntu.edu.tw/~cjlin/papers/libsvm.pdf)  
 [LIBLINEAR: A Library for Large Linear Classification](https://www.csie.ntu.edu.tw/~cjlin/papers/liblinear.pdf)  
