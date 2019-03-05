@@ -26,10 +26,10 @@
   - computer the inner product between **w** and **v** to get the margin
   - maximize the margin  
 TODO: add image  
-- Solve an equivalent quardratic programming problem (plenty of algorithms and packages to solve QP problem)  
+- Solve an equivalent quadratic programming problem (plenty of algorithms and packages to solve QP problem)  
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_primal.png)
 ### When and Where
-- Training data are linear seperable (but you do not know this info before training)
+- Training data are linear separable (but you do not know this info before training)
 - So the heuristic to use this model are: 
   - number of instances << number of features, e.g. bioinformatics
   - both number of instances and features are large, e.g. document classification
@@ -165,7 +165,7 @@ TODO: add image
     - Soft binary classifier (giving probability)
     - Regression model
 - Vertically, models are evolved from vanilla linear models into kernel and further into SVM
-- Linear model (w/o kernel function) should always be tried first, and only if they are not good enough, SVM and kernel model should be tried out
+- Linear model (w/o kernel function) should always be tried first, and only if they are not good enough, SVM and kernel model should then be tried out
 TODO: add image
 ## [Appendix LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvm/)
 ### SVM models implemented in LIBSVM
@@ -177,10 +177,10 @@ TODO: add image
 ### Unbalanced data
 - Using different penalty parameters C- and C+ for two classes is implemented in LIBSVM
 ### Probability Estimate
-- Probability Estimate is different from Distribution Estimate.
-- Probability Estimate is to estimate the probability of being one class or the other, which is implemented by Probabilistic SVM
-- Distribution Estimate is to estimate the distribution of one class data, and use the distribution to decide whether a data belongs to this class. This is unsupervised learning approach used for outlier detection.
-### Multi-class classfication
+- Probability Estimate is different from Distribution Estimate
+- Probability Estimate is to estimate the probability of being one class or the other, which is an implementation of Probabilistic SVM
+- Distribution Estimate is to estimate the distribution of one class data, and use the distribution to decide whether an data instance belongs to this class. This is an unsupervised learning approach which is normally used for outlier detection
+### Multi-class classification
 - Use ovo(one versus one) approach to elect champion among multiple classes
 ### Proposed procedure
 - Read the [Practical Guide](https://www.csie.ntu.edu.tw/~cjlin/papers/guide/guide.pdf) to get start
