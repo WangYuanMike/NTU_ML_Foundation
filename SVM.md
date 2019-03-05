@@ -158,7 +158,7 @@ The reason has been described in the Cons of kernel SVM above
 ### Kernel Ridge Regression (Least-Square SVM)
 - Similar as Kernel Logistic Regression, one can get a kernel version L2-regularized linear regression too
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/kernel_ridge_regression_problem.png)
-- Kernel Ridge Regression can also be solved analytically, but the training time is O(N^3) and the predict time is O(N), which would be pretty hard for big data . 
+- Kernel Ridge Regression can also be solved analytically, but the training time is O(N^3) and the predict time is O(N), which would be pretty hard for big data.   
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/kernel_ridge_regression_solver.png)
 ## [Summary](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/206_handout.pdf)
 - Horizontally there are 3 types of linear models:
