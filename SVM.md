@@ -119,14 +119,25 @@ TODO: Add image
 ### Cons
 - Soft margin SVM can only be used in binary classification. 
 - **For multi-class classification problem**, one needs to apply **ovo(one versus one) or ova(one versus all)** approach with Soft margin SVM
-- **For soft binary classificiation problem**(when user needs to know a classification probability), one needs to use **Probabilistic SVM** or **Kernel Logistic Regression**
+- **For soft binary classification problem**(when user needs to know a classification probability), one needs to use **Probabilistic SVM** or **Kernel Logistic Regression**
 - **For regression problem**, one needs to use **Support Vector Regression** or **Kernel Ridge Regression**
 ## [Probabilistic SVM](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/205_handout.pdf)
 ### What
+- A soft binary SVM-based classifier which could predict class probability instead of a hard 0/1 classification  
 ### Why
+- This model combines both flavor of SVM and logistic regression. Comparing with **Kernel Logistic Regression**, the solution of Probabilistic SVM is often sparse.
 ### How
+TODO: add image
 ### When and Where
+- This model is used when one needs to know the class probability and wants to use kernel SVM to get a sparse solution
 ### Cons
+- Probabilistic SVM is to approximate logistic regression in Z space, not exact logistic regression on Z space
+### Kernel Logistic Regression
+- **Representer Theorem**
+    - For any L2-regularized linear model, optimal weight can be represented by a linear combination of feature vectors
+    TODO: add image
+    - Therefore by replacing weight by linear combination of feature vectors, one can develop a kernel version logistic regression
+    - The cons of this model is the solution is not sparse enough, therefore it is not as practical as Probabilistic SVM
 ## [Support Vector Regression](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/206_handout.pdf)
 ### What
 ### Why
