@@ -106,11 +106,16 @@ The reason has been described in the Cons of kernel SVM above
    - A smaller C means the model can tolerate more violation
    - The default value of C is usually set to 1
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_soft_margin_primal.png)
+- Similar as hard margin SVM, transform the soft margin SVM primal problem to dual problem and simplify it
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_soft_margin_dual.png)
 - After training, there are 3 types of data instances:
    - **alpha == 0 -> non support vectors**, i.e. data instances which are classified correctly by the decision boundary and do not lie on the margin. These data instances are not useful in prediction, thus can be abandoned after training
    - **alpha == C -> bounded support vectors**, i.e. data instances which violates the margin, they are useful in computing the weight-feature inner product for prediction when kernel function is used, therefore must be kept after training
    - **0 < alpha < C -> free support vectors**, i.e. data instances which are classified correclty and lie on the margin. User must choose any one of these data instances to compute the bias when kernel function is used.
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_alpha.png)
+- When kernel function is used, weight cannot be computed directly (because the feature mapping is done implicitly, and could even be infinite dimensional space), therefore the prediction is computed with support vectors (both bounded and free ones) and bias is computed by any free support vectors
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_dual_predict.png)
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_dual_solve_b.png)
 - Soft margin SVM can be viewed as a linear model error measurement **max(0, violation distance)** plus L2 regularization (the original SVM minimization objective) 
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_soft_margin_l2_regularized.png)
 ### When and Where
