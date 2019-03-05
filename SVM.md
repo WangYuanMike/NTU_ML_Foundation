@@ -25,7 +25,7 @@
   - get the difference vector (**v**) between the data instance and its intersection with the hyperplane
   - computer the inner product between **w** and **v** to get the margin
   - maximize the margin  
-TODO: add image  
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_distance.png)
 - Solve an equivalent quadratic programming problem (plenty of algorithms and packages to solve QP problem)  
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_primal.png)
 ### When and Where
@@ -47,30 +47,29 @@ TODO: add image
 - The solution is to solve its Lagrange dual problem, because it transforms variables to optimize from weight and bias to the Lagrange multipliers of data instances, i.e. from very high (or inifite) dimension to rather low (or finite) dimension
 ### How
 - Use function phi to map current feature vector into higher dimensional space  
-TODO: add image  
-- Create the Lagrange function and transform the primal problem into an equivalent **min-max** optimization problem without constraints (actually Lagrange multipliers alpha >= 0 become the new constraints of the Lagrange functions)  
-TODO: add image  
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_phi_mapping.png) 
+- Create the Lagrange function and transform the primal problem into an equivalent **min-max** optimization problem without constraints (actually Lagrange multipliers alpha >= 0 become the new constraints of the Lagrange functions)   
 - Reason for the equivalence: 
    - **For those weight and bias which generates a positive constraint (those do not fulfill the constraints)**, the maximization will make the inner function exploded to positive infinite， which in turn will make these weight and bias eliminated by the outer minimization step
    - **For those weight and bias which generate a constraint equals zero**, alpha can be any value which >= 0(these corresponding data instances are the **Support Vector**), and only the minimization objective in the original problem will be kept
    - **For those weight and bias which generate a negative constraint**, the maximization will make alpha equals 0, which in turn will also keep the minimization objective of the original problem
    - Both the zero and the negative case forms the **complementary slackness** condition in **KKT optimality condtion** below, i.e. either alpha or the constraint (or both) needs to be zero 
-TODO: add image  
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_dual.png)
 - When below conditions are met, the optimal of the primal min-max problem is equal to the one of the dual max-min problem.
   - primal problem is convex
   - constraints are linear
-  - primal problem is feasible (linear separable in the mapped high dimensional space)  
-TODO: add image  
+  - primal problem is feasible (linear separable in the mapped high dimensional space)   
 - Take gradient of Lagrange function with respect to weight, bias, and alpha, set these gradient to zero (condition for optimal solution) to get some relations between variables and some new constraints, and plug them back into the dual max-min problem to get a simple maximization QP problem  
-TODO: add image  
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_dual_gradient_b.png)
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_dual_gradient_w.png)
 - Use QP package to solve the problem and get the optimal alpha  
-TODO: add image  
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_qp_solver.png)
 - Use **KKT optimality condition** (the sufficient and necessary condition for optimality) to compute weight and bias:
   - primal feasible (not relevant with computing weight and bias)
   - dual feasible (not relevant with computing weight and bias)
   - dual-inner optimal -> **only support vectors' alpha are bigger than 0** -> only need support vector to compute weight
   - primal-inner optimal (also called **complementary slackness**) -> use any support vector to compute bias or take average of support vectors to avoid numerical errors  
-TODO: add image  
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_kkt.png) 
 ### When and Where
 - This is a theoretical middle step for more advanced model. No practical use case, see details in Cons below
 ### Cons
@@ -82,10 +81,10 @@ TODO: add image
 - With kernel function, SVM dual problem with high dimensional feature space could be solved within the time complexity of original features' lower dimensional space
 ### How
 - The common kernel functions are below:
-   - linear kernel   TODO: add image
-   - polynomial kernel  TODO: add image
-   - rbf (gaussian) kernel TODO: add image
-- Necessary and sufficient condition for valid kernel functions needs is **Mercer's condition** -> K matrix needs to be postive semi definite, but some kernel function which does not fulfill Mercer's condition may also work in practice
+   - linear kernel   ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_linear_kernel.png)
+   - polynomial kernel  ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_polynomial_kernel.png)
+   - rbf (gaussian) kernel ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_rbf_kernel.png)
+- Necessary and sufficient condition for valid kernel functions needs is **Mercer's condition** -> K matrix needs to be postive semi definite, but some kernel function which does not meet Mercer's condition may also work in practice
 ### When and Where
 - Equipped with kernel function, SVM dual problem is the first practical **hard margin SVM**
 - The linear kernel does not map feature vector at all, so it is valid for those scenarios mentioned in [SVM primal problem](#svm-primal-problem), and it should be tried first, but normally with **soft margin SVM**
@@ -106,14 +105,14 @@ The reason has been described in the Cons of kernel SVM above
 - A hyperparameter **C** is added as the coefficient of the violation part in the minimization objective
    - A smaller C means the model can tolerate more violation
    - The default value of C is usually set to 1
-TODO: add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_soft_margin_primal.png)
 - After training, there are 3 types of data instances:
    - **alpha == 0 -> non support vectors**, i.e. data instances which are classified correctly by the decision boundary and do not lie on the margin. These data instances are not useful in prediction, thus can be abandoned after training
    - **alpha == C -> bounded support vectors**, i.e. data instances which violates the margin, they are useful in computing the weight-feature inner product for prediction when kernel function is used, therefore must be kept after training
    - **0 < alpha < C -> free support vectors**, i.e. data instances which are classified correclty and lie on the margin. User must choose any one of these data instances to compute the bias when kernel function is used.
-TODO: add image
-- Soft margin SVM can be viewed as a linear model error measurement(**max(0, violation distance)**) plus L2 regularization (the original SVM minimization objective) 
-TODO: Add image 
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_alpha.png)
+- Soft margin SVM can be viewed as a linear model error measurement **max(0, violation distance)** plus L2 regularization (the original SVM minimization objective) 
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_soft_margin_l2_regularized.png)
 ### When and Where
 - Soft margin SVM is the first practical SVM model which could handle most of the classfication problem effectively and efficiently. In LIBSVM and some other packages, it is usually called **C-SVM**
 ### Cons
@@ -127,38 +126,40 @@ TODO: Add image
 ### Why
 - This model combines both flavor of SVM and logistic regression. Comparing with **Kernel Logistic Regression**, the solution of Probabilistic SVM is often sparse.
 ### How
-TODO: add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/probabilistic_svm.png)
 ### When and Where
 - This model is used when one needs to know the class probability and wants to use kernel SVM to get a sparse solution
 ### Cons
 - Probabilistic SVM is to estimate logistic regression in Z space, not exact logistic regression on Z space
 ### Kernel Logistic Regression
 - **Representer Theorem**: For any L2-regularized linear model, optimal weight can be represented by a linear combination of feature vectors
-TODO: add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/representer_theorem.png)
 - Therefore by replacing weight by linear combination of feature vectors, one can develop a kernel version logistic regression
 - The cons of this model is the solution is not sparse enough, therefore it is not as practical as Probabilistic SVM
-TODO: add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/kernel_logistic_regression.png)
 ## [Support Vector Regression](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/206_handout.pdf)
 ### What
 - A L2-regularized linear regression model with **Tube error function(|score - y| - epsilon >= Xi, Xi >= 0) **, which provides the benefit of soft margin SVM 
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svr_tube.png)
 ### Why
 - Comparing with Kernel Ridge Regression, this model has benefits of SVM, e.g. kernel function, sparse solution, good tolerance of outlier, and so on
 ### How
 - Similar as SVM, Support Vector Regression is solved through dual problem and quadratic programming 
-TODO: Add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svr_dual.png)
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svr_qr_solver.png)
 - Support Vectors of SVR are those data instances which are on or out of the tube
 - Weight is computed by just support vectors
 - Bias can be computed by the support vectors on the tube, i.e. free support vectors, using formula b = y - <w, z> - epsilon. If there is no free support vectors, b can only be estimated by all data instances. See more detail in the [Support Vector Regression tutorial](https://alex.smola.org/papers/2004/SmoSch04.pdf) 
-TODO: Add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svr_sparsity.png)
 ### When and Where
 - When linear regression could not get a good performance, SVR is worth to try
 ### Cons
 - [Support Vector Regression tutorial](https://alex.smola.org/papers/2004/SmoSch04.pdf) documents some area for SVR to improve, e.g. number of support vectors needs to be reduced in the context of big data
-TODO: Add image
 ### Kernel Ridge Regression (Least-Square SVM)
 - Similar as Kernel Logistic Regression, one can get a kernel version L2-regularized linear regression too
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/kernel_ridge_regression_problem.png)
 - Kernel Ridge Regression can also be solved analytically, but the training time is O(N^3) and the predict time is O(N), which would be pretty hard for big data
-TODO: add image 
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/kernel_ridge_regression_solver.png)
 ## [Summary](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/206_handout.pdf)
 - Horizontally there are 3 types of linear models:
     - Binary classifier
@@ -166,7 +167,7 @@ TODO: add image
     - Regression model
 - Vertically, models are evolved from vanilla linear models into kernel and further into SVM
 - Linear model (w/o kernel function) should always be tried first, and only if they are not good enough, SVM and kernel model should then be tried out
-TODO: add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_summary.png)
 ## [Appendix LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvm/)
 ### SVM models implemented in LIBSVM
 - **C-SVC**: soft margin SVM
