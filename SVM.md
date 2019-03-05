@@ -131,23 +131,57 @@ TODO: add image
 ### When and Where
 - This model is used when one needs to know the class probability and wants to use kernel SVM to get a sparse solution
 ### Cons
-- Probabilistic SVM is to approximate logistic regression in Z space, not exact logistic regression on Z space
+- Probabilistic SVM is to estimate logistic regression in Z space, not exact logistic regression on Z space
 ### Kernel Logistic Regression
-- **Representer Theorem**
-    - For any L2-regularized linear model, optimal weight can be represented by a linear combination of feature vectors
-    TODO: add image
-    - Therefore by replacing weight by linear combination of feature vectors, one can develop a kernel version logistic regression
-    - The cons of this model is the solution is not sparse enough, therefore it is not as practical as Probabilistic SVM
+- **Representer Theorem**: For any L2-regularized linear model, optimal weight can be represented by a linear combination of feature vectors
+TODO: add image
+- Therefore by replacing weight by linear combination of feature vectors, one can develop a kernel version logistic regression
+- The cons of this model is the solution is not sparse enough, therefore it is not as practical as Probabilistic SVM
+TODO: add image
 ## [Support Vector Regression](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/206_handout.pdf)
 ### What
+- A L2-regularized linear regression model with **Tube error function(|score - y| - epsilon >= Xi, Xi >= 0) **, which provides the benefit of soft margin SVM 
 ### Why
+- Comparing with Kernel Ridge Regression, this model has benefits of SVM, e.g. kernel function, sparse solution, good tolerance of outlier, and so on
 ### How
+- Similar as SVM, Support Vector Regression is solved through dual problem and quadratic programming 
+TODO: Add image
+- Support Vectors of SVR are those data instances which are on or out of the tube
+- Weight is computed by just support vectors
+- Bias can be computed by the support vectors on the tube, i.e. free support vectors, using formula b = y - <w, z> - epsilon. If there is no free support vectors, b can only be estimated by all data instances. See more detail in the [Support Vector Regression tutorial](https://alex.smola.org/papers/2004/SmoSch04.pdf) 
+TODO: Add image
 ### When and Where
+- When linear regression could not get a good performance, SVR is worth to try
 ### Cons
+- [Support Vector Regression tutorial](https://alex.smola.org/papers/2004/SmoSch04.pdf) documents some area for SVR to improve, e.g. number of support vectors needs to be reduced in the context of big data
+TODO: Add image
+### Kernel Ridge Regression (Least-Square SVM)
+- Similar as Kernel Logistic Regression, one can get a kernel version L2-regularized linear regression too
+- Kernel Ridge Regression can also be solved analytically, but the training time is O(N^3) and the predict time is O(N), which would be pretty hard for big data
+TODO: add image 
 ## [Summary](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/206_handout.pdf)
+- Horizontally there are 3 types of linear models:
+    - Binary classifier
+    - Soft binary classifier (giving probability)
+    - Regression model
+- Vertically, models are evolved from vanilla linear models into kernel and further into SVM
+- Linear model (w/o kernel function) should always be tried first, and only if they are not good enough, SVM and kernel model should be tried out
 TODO: add image
 ## [Appendix LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvm/)
-### Paper and Guide
+### SVM models implemented in LIBSVM
+- **C-SVC**: soft margin SVM
+- **nu-SVC**: soft margin SVM with a parameter nu to control training error and number of support vectors
+- **Distribution Estimation(one-class SVM)**: training data all belongs to one class, thus using SVM to train a decision boundary through origin so as to estimate distribution, i.e. whether a data belongs to this class
+- **epsilon-SVR**: support vector regression
+- **nu-SVR**: support vector regression with parameter nu to control training error and number of support vectors
+### Unbalanced data
+- Using different penalty parameters C- and C+ for two classes is implemented in LIBSVM
+### Probability Estimate
+- Probability Estimate is different from Distribution Estimate.
+- Probability Estimate is to estimate the probability of being one class or the other, which is implemented by Probabilistic SVM
+- Distribution Estimate is to estimate the distribution of one class data, and use the distribution to decide whether a data belongs to this class. This is unsupervised learning approach used for outlier detection.
+### Proposed procedure
+- Read the **[Practical Guide](https://www.csie.ntu.edu.tw/~cjlin/papers/guide/guide.pdf) to get start
+### Paper
 [LIBSVM: A Library for Support Vector Machines](https://www.csie.ntu.edu.tw/~cjlin/papers/libsvm.pdf)  
 [LIBLINEAR: A Library for Large Linear Classification](https://www.csie.ntu.edu.tw/~cjlin/papers/liblinear.pdf)  
-[A Practical Guide to Support Vector Classification](https://www.csie.ntu.edu.tw/~cjlin/papers/guide/guide.pdf)  
