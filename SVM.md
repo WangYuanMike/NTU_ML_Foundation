@@ -15,14 +15,14 @@
 - **Support Vector Machine** is a linear binary classification model which can find the "fattest" hyperplane as decision boundary
 - **Support Vector** is the data instance which lie on the margin, i.e. the one which has the minimum distance to the hyperplane
 ### Why
-- Simple but powerful model with good explainability
+- Simple but powerful model with stable performance for mid-size data set
 - Better generalization performance than other linear model because of large margin (large margin -> limited number of hyperplanes -> smaller VC dimension -> good resistance to overfitting)
 - Fast to train (using LIBLINEAER, LIBSVM, or sklearn.SVC)
 - Linear model -> easy to deploy and predict
 - Strictly convex problem -> easy to find the unique optimal numerically. Comparing with SVM, neural networks is full of local optimals
 ### How
 - Maximize the distance of the data instance that is closest to the hyperplane 
-  - get the unit normal vector of deciding hyperplane (**w**)
+  - get the unit normal vector of decision hyperplane (**w**)
   - get the difference vector (**v**) between the data instance and its intersection with the hyperplane
   - computer the inner product between **w** and **v** to get the margin
   - maximize the margin  
