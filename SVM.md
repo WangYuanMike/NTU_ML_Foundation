@@ -21,13 +21,23 @@
 - Linear model -> easy to deploy and predict
 - Strictly convex problem -> easy to find the unique optimal numerically. Comparing with SVM, neural networks is full of local optimals
 ### How
-- Maximize the distance of the data instance that is closest to the hyperplane 
-  - get the unit normal vector of decision hyperplane (**w**)
-  - get the difference vector (**v**) between the data instance and its intersection with the hyperplane
-  - computer the inner product between **w** and **v** to get the margin
-  - maximize the margin  
+- Let the decision boundary hyperplane be **<w, x> + b = 0** 
+- Compute the distance between a data instance and the hyperplane
+  - **w** is the normal vector of the hyperplane 
+  - **v** = **x** - **x'** (the difference vector between x and its intersection x' with the hyperplane)
+  - distance = |<w, v>| / ||w|| 
+             = |<w, (x - x')>| / ||w|| 
+             = |<w, x> - <w, x'>| / ||w||
+             = |<w, x> + b - (<w, x'> + b)| / ||w||
+             = |<w, x> + b| / ||w||
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_distance.png)
-- Solve an equivalent quadratic programming problem (plenty of algorithms and packages to solve QP problem)  
+- Let the margin goal be 1 (by scaling w and b, margin goal can be adjusted to 1 from any other constant)
+TODO: add image
+- Our goal is to get a hyperplane with largest margin, and we can convert it into a optimization problem with constraints
+TODO: add image
+- The optimal weight and bias are the same under a loose constraints (can be justified through contradiction)
+TODO: add image 
+- Finally, solve an equivalent quadratic programming problem with existing packages  
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_primal.png)
 ### When and Where
 - Training data are linear separable (but you do not know this info before training)
