@@ -25,6 +25,7 @@
 - Compute the distance between a data instance and the hyperplane
   - **w** is the normal vector of the hyperplane 
   - **v** = **x** - **x'** (the difference vector between x and its intersection x' with the hyperplane)
+  - distance is the projection of v onto the direction of w, and can be computed by the inner product of v and the unit vector of w, i.e. w/||w||
   - distance = |<w, v>| / ||w||  
              = |<w, (x - x')>| / ||w||   
              = |<w, x> - <w, x'>| / ||w||  
