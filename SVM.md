@@ -25,20 +25,21 @@
 - Compute the distance between a data instance and the hyperplane
   - **w** is the normal vector of the hyperplane 
   - **v** = **x** - **x'** (the difference vector between x and its intersection x' with the hyperplane)
-  - distance = |<w, v>| / ||w|| 
-             = |<w, (x - x')>| / ||w|| 
-             = |<w, x> - <w, x'>| / ||w||
-             = |<w, x> + b - (<w, x'> + b)| / ||w||
-             = |<w, x> + b| / ||w||
+  - distance = |<w, v>| / ||w||  
+             = |<w, (x - x')>| / ||w||   
+             = |<w, x> - <w, x'>| / ||w||  
+             = |<w, x> + b - (<w, x'> + b)| / ||w||  
+             = |<w, x> + b| / ||w||  
+             = y(<w, x> + b) / ||w||  
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_distance.png)
-- Let the margin goal be 1 (by scaling w and b, margin goal can be adjusted to 1 from any other constant)
-TODO: add image
-- Our goal is to get a hyperplane with largest margin, and we can convert it into a optimization problem with constraints
-TODO: add image
-- The optimal weight and bias are the same under a loose constraints (can be justified through contradiction)
-TODO: add image 
+- Our goal is to get a hyperplane with largest margin, and we can convert it into a optimization problem with constraints  
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_hard_margin_initial_problem.png)
+- Let the margin goal be 1 (by scaling w and b, margin goal can be adjusted to 1 from any other constant)  
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_hard_margin_one.png)
+- The optimal weight and bias are the same under a loose constraints (can be justified through contradiction)  
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_hard_margin_loose_constraint.png)
 - Finally, solve an equivalent quadratic programming problem with existing packages  
-![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_primal.png)
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_hard_margin_qp.png)
 ### When and Where
 - Training data are linear separable (but you do not know this info before training)
 - So the heuristic to use this model are: 
