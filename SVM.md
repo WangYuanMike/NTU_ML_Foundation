@@ -36,7 +36,7 @@
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_hard_margin_initial_problem.png)
 - Let the margin goal be 1 (by scaling w and b, margin goal can be adjusted to 1 from any other constant)  
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_hard_margin_one.png)
-- The optimal weight and bias are the same under a loose constraints (can be justified through contradiction)  
+- The optimization problem can be solved easier under a looser constraint, and its optimal weight and bias still meets the original constraints (this can be justified through  contradiction)  
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_hard_margin_loose_constraint.png)
 - Finally, solve an equivalent quadratic programming problem with existing packages  
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svm_hard_margin_qp.png)
