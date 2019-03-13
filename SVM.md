@@ -19,7 +19,7 @@
 - Better generalization performance than other linear model because of large margin (large margin -> limited number of hyperplanes -> smaller VC dimension -> good resistance to overfitting)
 - Fast to train (using LIBLINEAER, LIBSVM, or sklearn.SVC)
 - Linear model -> easy to deploy and predict
-- Strictly convex problem -> easy to find the unique optimal numerically. Comparing with SVM, neural networks is full of local optimals
+- Strictly convex problem -> easy to find the unique optimal numerically. Compared with SVM, neural networks is full of local optimals
 ### How
 - Let the decision boundary hyperplane be **<w, x> + b = 0** 
 - Compute the distance between a data instance and the hyperplane
@@ -144,7 +144,7 @@ The reason has been described in the Cons of kernel SVM above
 ### What
 - A soft binary SVM-based classifier which could predict class probability instead of a hard 0/1 classification  
 ### Why
-- This model combines both flavor of SVM and logistic regression. Comparing with **Kernel Logistic Regression**, the solution of Probabilistic SVM is often sparse.
+- This model combines both flavor of SVM and logistic regression. Compared with **Kernel Logistic Regression**, the solution of Probabilistic SVM is often sparse.
 ### How
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/probabilistic_svm.png)
 ### When and Where
@@ -162,7 +162,7 @@ The reason has been described in the Cons of kernel SVM above
 - A L2-regularized linear regression model with **Tube error function(|<w, z> - y| - epsilon >= Xi, Xi >= 0)**, which provides the benefits similar as soft margin SVM 
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svr_tube.png)
 ### Why
-- Comparing with Kernel Ridge Regression, this model has similar benefits of SVM, e.g. kernel function, sparse solution, good tolerance of outlier, convex optimization, and so on
+- Compared with Kernel Ridge Regression, this model has similar benefits of SVM, e.g. kernel function, sparse solution, good tolerance of outlier, convex optimization, and so on
 ### How
 - Similar as SVM, Support Vector Regression is solved through dual problem and quadratic programming 
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/SVM/svr_dual.png)
