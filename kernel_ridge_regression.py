@@ -85,7 +85,7 @@ def linear_krr_experiment():
     test_x = x[400:, :]
     test_y = y[400:]
 
-    lamb_list = [1e-2, 1e-1, 1e0, 1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9, 1e10]
+    lamb_list = [1e-2, 1e-1, 1e0, 1e1, 1e2, 1e3, 1e4, 1e5]
     e_in_list = np.zeros(len(lamb_list))
     e_out_list = np.zeros(e_in_list.shape)
     for i, lamb in enumerate(lamb_list):
