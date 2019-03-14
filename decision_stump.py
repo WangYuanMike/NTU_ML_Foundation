@@ -80,7 +80,7 @@ def get_average_errors(num_experiments=5000):
     return e_in_average, e_out_average
 
 
-def multi_dim_decision_stump(x, y):
+def multi_dim_decision_stump(x, y, u):
     optimal_theta = 0.0
     optimal_s = 1
     optimal_i = 0
@@ -89,7 +89,7 @@ def multi_dim_decision_stump(x, y):
     optimal_incorrect = []
 
     for i in range(x.shape[1]):
-        e_in, _, theta, s, correct, incorrect = decision_stump(x[:, i], y)
+        e_in, _, theta, s, correct, incorrect = decision_stump(x[:, i], y, u)
         if e_in <= optimal_e_in:
             optimal_e_in = e_in
             optimal_theta = theta
