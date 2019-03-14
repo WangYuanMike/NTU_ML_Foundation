@@ -13,12 +13,20 @@ def sample_generator(N=20, noise=0.2):
         yield x[p], y[p]
 
 
-def get_e_in(theta, s, x, y):
+def get_e_in(theta, s, x, y, u=None):
     e_in = 0
+    correct = []
+    incorrect = []
     for i in range(len(x)):
         if s * sign(x[i] - theta) != y[i]:
-            e_in += 1 / len(x)
-    return e_in
+            incorrect.append(i)
+            if u is None:
+                e_in += 1 / len(x)
+            else:
+                e_in += u[i] / len(x)
+        else:
+            correct.append(i)
+    return e_in, correct, incorrect
 
 
 def get_e_out(theta, s, noise=0.2):
@@ -26,28 +34,38 @@ def get_e_out(theta, s, noise=0.2):
     return e_out
 
 
-def decision_stump(x, y):
+def decision_stump(x, y, u=None):
+    sorted_x = np.sort(x)
     optimal_e_in = 1.0
     optimal_theta = 0.0
-    for i in range(len(x)):
+    optimal_s = 1
+    optimal_correct = []
+    optimal_incorrect = []
+    for i in range(len(sorted_x)):
         if i == 0:
-            theta = (-1 + x[i]) / 2
+            theta = float("-inf")
         else:
             theta = (x[i-1] + x[i]) / 2
-        e_in_positive = get_e_in(theta, 1, x, y)
-        e_in_negative = get_e_in(theta, -1, x, y)
+        e_in_positive, correct_positive, incorrect_positive = get_e_in(theta, 1, x, y, u)
+        e_in_negative, correct_negative, incorrect_negative = get_e_in(theta, -1, x, y, u)
         if e_in_positive <= e_in_negative:
             e_in = e_in_positive
             s = 1
+            correct = correct_positive
+            incorrect = incorrect_positive
         else:
             e_in = e_in_negative
             s = -1
+            correct = correct_negative
+            incorrect = incorrect_negative
         if e_in < optimal_e_in:
             optimal_e_in = e_in
             optimal_theta = theta
             optimal_s = s
+            optimal_correct = correct
+            optimal_incorrect = incorrect
     e_out = get_e_out(optimal_theta, optimal_s)
-    return optimal_e_in, e_out, optimal_theta, optimal_s
+    return optimal_e_in, e_out, optimal_theta, optimal_s, optimal_correct, optimal_incorrect
 
 
 def get_average_errors(num_experiments=5000):
@@ -56,7 +74,7 @@ def get_average_errors(num_experiments=5000):
     gen = sample_generator()
     for i in range(num_experiments):
         x, y = gen.__next__()
-        e_in, e_out, _, _ = decision_stump(x, y)
+        e_in, e_out, _, _, _, _ = decision_stump(x, y)
         e_in_average += e_in / num_experiments
         e_out_average += e_out / num_experiments
     return e_in_average, e_out_average
@@ -67,16 +85,20 @@ def multi_dim_decision_stump(x, y):
     optimal_s = 1
     optimal_i = 0
     optimal_e_in = 1.0
+    optimal_correct = []
+    optimal_incorrect = []
 
     for i in range(x.shape[1]):
-        e_in, _, theta, s = decision_stump(x[:, i], y)
+        e_in, _, theta, s, correct, incorrect = decision_stump(x[:, i], y)
         if e_in <= optimal_e_in:
             optimal_e_in = e_in
             optimal_theta = theta
             optimal_s = s
             optimal_i = i
+            optimal_correct = correct
+            optimal_incorrect = incorrect
 
-    return optimal_e_in, optimal_theta, optimal_s, optimal_i
+    return optimal_e_in, optimal_theta, optimal_s, optimal_i, optimal_correct, optimal_incorrect
 
 
 def get_data(file):
@@ -93,7 +115,7 @@ def get_e_out_multi_dim_ds(theta, s, i, x, y):
 def get_multi_dim_ds_errors(train_file, test_file):
     train_x, train_y = get_data(train_file)
     test_x, test_y = get_data(test_file)
-    e_in, theta, s, i = multi_dim_decision_stump(train_x, train_y)
+    e_in, theta, s, i, _, _ = multi_dim_decision_stump(train_x, train_y)
     e_out = get_e_out_multi_dim_ds(theta, s, i, test_x, test_y)
     return e_in, e_out
 

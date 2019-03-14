@@ -2,7 +2,7 @@ import numpy as np
 from sklearn_SVM import get_error
 
 
-class KernelRidgeRegression():
+class KernelRidgeRegression:
     def __init__(self, kernel='g', gamma=1.0, lamb=1.0):
         self.kernel = kernel
         self.gamma = gamma
@@ -45,10 +45,14 @@ class KernelRidgeRegression():
         return predict_y, error
 
 
-def load_samples(sample_file):
+def load_samples(sample_file, add_x0=False):
     samples = np.loadtxt(sample_file)
     x = samples[:, :-1]
     y = samples[:, -1]
+    if add_x0:
+        x_plus = np.ones((x.shape[0], x.shape[1]+1))
+        x_plus[:, :-1] = x
+        x = x_plus
     return x, y
 
 
@@ -79,13 +83,13 @@ def krr_experiment():
 
 
 def linear_krr_experiment():
-    x, y = load_samples("./hw2_lssvm_all.dat")
+    x, y = load_samples("./hw2_lssvm_all.dat", add_x0=True)
     train_x = x[:400, :]
     train_y = y[:400]
     test_x = x[400:, :]
     test_y = y[400:]
 
-    lamb_list = [1e-2, 1e-1, 1e0, 1e1, 1e2, 1e3, 1e4, 1e5]
+    lamb_list = [1e-2, 1e-1, 1e0, 1e1, 1e2]
     e_in_list = np.zeros(len(lamb_list))
     e_out_list = np.zeros(e_in_list.shape)
     for i, lamb in enumerate(lamb_list):

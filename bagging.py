@@ -25,13 +25,13 @@ def bagging(T, lamb, train_x, train_y, test_x, test_y):
 
 
 def bagging_krr_experiment(T):
-    x, y = krr.load_samples("./hw2_lssvm_all.dat")
+    x, y = krr.load_samples("./hw2_lssvm_all.dat", add_x0=True)
     train_x = x[:400, :]
     train_y = y[:400]
     test_x = x[400:, :]
     test_y = y[400:]
 
-    lamb_list = [1e-2, 1e-1, 1e0, 1e1, 1e2, 1e3, 1e4, 1e5]
+    lamb_list = [1e-2, 1e-1, 1e0, 1e1, 1e2]
     e_in_list = np.zeros(len(lamb_list))
     e_out_list = np.zeros(e_in_list.shape)
     for i, lamb in enumerate(lamb_list):
