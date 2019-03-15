@@ -17,13 +17,18 @@ def get_e_in(theta, s, x, y, u=None):
     e_in = 0
     correct = []
     incorrect = []
+    if u is None:
+        n = len(x)
+    else:
+        n = sum(u)
+
     for i in range(len(x)):
         if s * sign(x[i] - theta) != y[i]:
             incorrect.append(i)
             if u is None:
-                e_in += 1 / len(x)
+                e_in += 1 / n
             else:
-                e_in += u[i] / len(x)
+                e_in += u[i] / n
         else:
             correct.append(i)
     return e_in, correct, incorrect
