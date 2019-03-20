@@ -1,9 +1,9 @@
 # Aggregation (Ensemble)
 
 ## Table of Contents
-[Uniform Blending](#uniform-blending)
-[Linear Blending](#linear-blending)
-[Bagging](#bagging)
+[Uniform Blending](#uniform-blending)  
+[Linear Blending](#linear-blending)  
+[Bagging](#bagging)  
 [Adaptive Boosting](#adaptive-boosting)  
 [Decision Tree](#decision-tree)  
 [Random Forest](#random-forest)  
@@ -90,7 +90,42 @@ TODO: add image
 
 ## [Decision Tree](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/209_handout.pdf)
 ### What
+- A traditional model that realizes conditional aggregation
+TODO: add image (aggregation summary)
+### Why
+- Mimic human's decision making process
+- Good explainability
+- Easy to implement (recursive tree model)
+- Efficient in prediction and training
+### How
+- C&RT algorithm (Classification & Regression Tree)
+TODO: add image
+- Impurity function
+TODO: add image
+- Termination condition
+TODO: add image
+- Regularization by pruning
+TODO: add image
+- Branching on categorical feature
+TODO: add image
+- Missing feature by surrogate branching
+TODO: add image
+### When and Where
+- Decision tree is not a practical model, but it is a core building block for **Random Forest** and **Gradient Boosting**
+### Cons
+- Heuristics with mostly little theoretical explanations
+- Easy to overfit(fully grown tree usually has large variance) or underfit(not able to find a rule to split data properly)
+- Solution is **Random Forest** or **Gradient Boosting** introduced in the next sections
 
+## [Random Forest](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/210_handout.pdf)
+### What
+### Why
+### How
+### When and Where
+### Cons
+
+## [Gradient Boosting Decision Tree](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/211_handout.pdf)
+### What
 ### Why
 ### How
 ### When and Where
