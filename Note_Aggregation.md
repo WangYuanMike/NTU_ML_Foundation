@@ -119,10 +119,31 @@ TODO: add image
 
 ## [Random Forest](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/210_handout.pdf)
 ### What
+- Random forest == bagging + fully-grown C&RT decision tree on randomly projected subspace
 ### Why
+- Decision tree (esp. fully-grown tree) has large variance, and bagging is able to reduce variance
+- Inherit pros of C&RT
+- Highly parallel/efficient to learn
 ### How
+- bagging + fully-grown C&RT decision tree
+TODO: add image
+- Diversify by feature selection (feature expansion) when computing decision condition each time
+    - feature selection: select some features from original ones (a special case of feature expansion)
+    - feature expansion: use some random linear combination of original feature basis to form a projection matrix, and use it project original features onto random subspace
+TODO: add image
+- Use OOB (out-of-bag) examples to select G() (similar as validation)
+    - about 1/e of examples are out-of-bag
+    - no re-train needed, compared with validation
+TODO: add image
+- **Feature selection by importance**
+    - In general, feature importance can be computed with feature permutation, i.e. if a random feature value does impact the classification/regression result, then it is an importance feature in this model
+    TODO: add image
+    - In random forest, the feature permutation is only performed within OOB examples
+    TODO: add image
 ### When and Where
+- Random forest is also a very popular model 
 ### Cons
+- May need lots of trees if the whole random process is too unstable
 
 ## [Gradient Boosting Decision Tree](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/211_handout.pdf)
 ### What
