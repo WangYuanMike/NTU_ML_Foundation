@@ -7,6 +7,7 @@
 [Adaptive Boosting](#adaptive-boosting)  
 [Decision Tree](#decision-tree)  
 [Random Forest](#random-forest)  
+[AdaBosst Decision Tree](#adaboost-decision-tree)  
 [Gradient Boosted Decision Tree](#gradient-boosted-decision-tree)  
 [Summary](#summary)
 
@@ -72,9 +73,11 @@ TODO: add image
 
 ## [Adaptive Boosting](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/208_handout.pdf)
 ### What
-- AdaBoost(Adaptive Boosting) simulates bootstrapping by computing example-weighted error
-- adjusts example weight according to error of last iteration
-- learns alpha for aggregation during learning weak hypotheses
+- AdaBoost(Adaptive Boosting) combines weak hypotheses linearly
+- It simulates bootstrapping by computing example-weighted error
+- It adjusts example weight according to error of last iteration
+- It learns alpha for aggregation during learning weak hypotheses
+- The basic version of AdaBoost uses decision stump as weak hypotheses, and the whole model is called **AdaBoost-Stump**
 ### Why
 - Example-weighted error keeps the data randomness in bagging
 - Example weight is adjusted to learn a hypothesis which is very different from the previous one
@@ -111,7 +114,8 @@ TODO: add image
 - Missing feature by surrogate branching
 TODO: add image
 ### When and Where
-- Decision tree is not a practical model, but it is a core building block for **Random Forest** and **Gradient Boosting**
+- Decision tree is a practical model
+- More importantly it is a core building block for **Random Forest** and **Gradient Boosting**
 ### Cons
 - Heuristics with mostly little theoretical explanations
 - Easy to overfit(fully grown tree usually has large variance) or underfit(not able to find a rule to split data properly)
@@ -145,12 +149,39 @@ TODO: add image
 ### Cons
 - May need lots of trees if the whole random process is too unstable
 
+## [AdaBoost Decision Tree](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/211_handout.pdf)
+### What
+- Use decision tree as weak hypotheses in AdaBoost
+### Why
+- Random forest just combines the weak hypotheses uniformly, while AdaBoost decision tree combines them linearly
+- This is a step to extend the model from binary classification to regression (check more details in next section **Gradient Boosting Decision Tree**)
+### How
+- Use bootstrap to sample examples according to weight u, to avoid changing decision tree algorithm due to requirement of AdaBoost
+- Restrict the height of decision tree to avoid a fully-grown decision tree (fully-grown tree -> E_in_u = 0 -> epsilon_t = 0 -> alpha_t = infinite)
+- When height is restricted to one, the AdaBoost Decision Tree model becomes AdaBoost-Stump
+### When and Where
+- AdaBoost Decision Tree is a special case of Gradient Boost Decision Tree, which is a step to understand Boosting model from Gradient Descent perspective
+### Gradient Descent for AdaBoost
+- Goal of AdaBoost is to reduce u_t (large margin decision boundary -> ys needs to be large -> u_t needs to be small -> use exponential error as error measure for AdaBoost)
+TOD: add image
+- Gradient Descent requires to find two parameters to reduce error:
+    - the steepest unit vector **v** to reduce the error => In AdaBoost, vector v is analogous to function h(x)
+    TODO: add image
+    - the step length **eta** to go => In AdaBoost, eta is analogous to alpha
+    TODO: add image
+
 ## [Gradient Boosting Decision Tree](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/211_handout.pdf)
 ### What
+- A generic boosting model using decision tree as weak hypotheses
 ### Why
+- Extend the boosting model to regression problems
 ### How
+- Use residual (y - s_t) to find (1) the function h(x) (usually) and (2) the alpha for gradient descent
+TODO: add image
 ### When and Where
+- It is a very mature and popular model
 ### Cons
+- Gradient Boosting builds trees one by one, therefore it is more efficient to train Random Forest than Gradient Boosting
 
 ## [Summary](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/211_handout.pdf)
-
+TODO:add image
