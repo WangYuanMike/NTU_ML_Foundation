@@ -23,12 +23,12 @@
     - Eout(G) and Eout(g_t) has the same bias
     - And var(G) = var(g_t) / n (n is the number of weaker hypotheses for aggregation)
     - That's why Eout(G) is **more stable** than Eout(g_t)  
-    ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/bias_variance_0.png)
-    ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/bias_variance_1.png)
+    ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/bias_variance_0.png) .   
+    ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/bias_variance_1.png) .  
 ### How
-- Classification: vote G() by many g_t(), each with 1 ballot
+- Classification: vote G() by many g_t(), each with 1 ballot .   
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/uniform_blending_classification.png)
-- Regression: take average of all g_t()
+- Regression: take average of all g_t() .   
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/uniform_blending_regression.png)
 ### When and Where
 - Nearly no practical use case
@@ -85,7 +85,7 @@
 - Alpha is adjusted according to example-weighted error so that good hypothesis would get higher alpha
 - In summary, the main character of AdaBoost is to direct the model to focus on the key examples by scaling up the incorrect ones and scaling down the correct ones
 ### How
-![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/adabosst_algorithm.png)
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/adaboost_algorithm.png)
 ### When and Where
 - AdaBoost is a very practical and efficient aggregation model which is used widely
 ### Cons
@@ -188,5 +188,5 @@ TOD: add image
 
 ## [Summary](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/211_handout.pdf)
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/summary_blending.png)
-![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/summary_aggregation.png)
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/summary_aggregation_learning.png)
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/summary_aggregation_of_aggregation.png)
