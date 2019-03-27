@@ -7,7 +7,7 @@
 [Adaptive Boosting](#adaptive-boosting)  
 [Decision Tree](#decision-tree)  
 [Random Forest](#random-forest)  
-[AdaBosst Decision Tree](#adaboost-decision-tree)  
+[AdaBoost Decision Tree](#adaboost-decision-tree)  
 [Gradient Boosted Decision Tree](#gradient-boosted-decision-tree)  
 [Summary](#summary)
 
