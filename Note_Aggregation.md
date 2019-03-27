@@ -18,17 +18,18 @@
 - strong -> feature transform -> cure underfitting
 - moderate -> regularization -> cure overfitting
 - **Requires diverse g_t()** -> diversity + democracy -> majority can correct minority
-- Bias-Variance analysis
+- **Bias-Variance analysis**
     - Eout(G) or Eout(g_t) can be both decoupled into bias and variance
     - Eout(G) and Eout(g_t) has the same bias
     - And var(G) = var(g_t) / n (n is the number of weaker hypotheses for aggregation)
     - That's why Eout(G) is **more stable** than Eout(g_t)  
-    TODO: ADD IMAGE
+    ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/bias_variance_0.png)
+    ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/bias_variance_1.png)
 ### How
 - Classification: vote G() by many g_t(), each with 1 ballot
-TODO: ADD IMAGE
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/uniform_blending_classification.png)
 - Regression: take average of all g_t()
-TODO: ADD IMAGE
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/uniform_blending_regression.png)
 ### When and Where
 - Nearly no practical use case
 - But it is the foundation for advanced aggregation model and theoretical analysis
@@ -39,12 +40,12 @@ TODO: ADD IMAGE
 ## [Linear Blending](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/207_handout.pdf)
 ### What
 - Blend the weak hypotheses with different "ballots"  
-TODO: ADD IMAGE
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/linear_blending.png)
 ### Why
 - Linear blending could provide more combination to approximate the target
 - g_t() can be deemed as a feature transformation on x, alpha is corresponding to weight
 - constraint on alpha is not important, since negative g_t() can be patched with a negative alpha
-TODO: ADD IMAGE
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/linear_blending_analogue.png)
 ### How
 - use D_train to train many g_t-()
 - transform data in D_val into phi-(x) with these g_t-()
@@ -64,7 +65,7 @@ TODO: ADD IMAGE
 ### why
 - Bagging is to approximate the theoretical consensus g_bar() through bootstrapping, i.e. a way of simulating randomness with finite data set
 ### How
-TODO: add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/bagging_algorithm.png)
 ### When and Where
 - Bagging should perform reasonably well when base model is sensitive to data randomness
 ### Cons
@@ -84,7 +85,7 @@ TODO: add image
 - Alpha is adjusted according to example-weighted error so that good hypothesis would get higher alpha
 - In summary, the main character of AdaBoost is to direct the model to focus on the key examples by scaling up the incorrect ones and scaling down the correct ones
 ### How
-TODO: add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/adabosst_algorithm.png)
 ### When and Where
 - AdaBoost is a very practical and efficient aggregation model which is used widely
 ### Cons
@@ -94,7 +95,7 @@ TODO: add image
 ## [Decision Tree](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/209_handout.pdf)
 ### What
 - A traditional model that realizes conditional aggregation
-TODO: add image (aggregation summary)
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/blending_aggregation_learning.png)
 ### Why
 - Mimic human's decision making process
 - Good explainability
@@ -102,17 +103,17 @@ TODO: add image (aggregation summary)
 - Efficient in prediction and training
 ### How
 - C&RT algorithm (Classification & Regression Tree)
-TODO: add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/decision_tree_algorithm.png)
 - Impurity function
-TODO: add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/decision_tree_impurity_function.png)
 - Termination condition
-TODO: add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/decision_tree_termination_condition.png)
 - Regularization by pruning
-TODO: add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/decision_tree_pruning.png)
 - Branching on categorical feature
-TODO: add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/decision_tree_categorical_feature.png)
 - Missing feature by surrogate branching
-TODO: add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/decision_tree_missing_feature.png)
 ### When and Where
 - Decision tree is a practical model
 - More importantly it is a core building block for **Random Forest** and **Gradient Boosting**
@@ -130,20 +131,22 @@ TODO: add image
 - Highly parallel/efficient to learn
 ### How
 - bagging + fully-grown C&RT decision tree
-TODO: add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/rf_algorithm.png)
 - Diversify by feature selection (feature expansion) when computing decision condition each time
     - feature selection: select some features from original ones (a special case of feature expansion)
     - feature expansion: use some random linear combination of original feature basis to form a projection matrix, and use it project original features onto random subspace
-TODO: add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/rf_sample_feature.png)
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/rf_random_feature.png)
 - Use OOB (out-of-bag) examples to select G() (similar as validation)
     - about 1/e of examples are out-of-bag
     - no re-train needed, compared with validation
-TODO: add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/rf_oob_definition.png)
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/rf_oob_validation.png)
 - **Feature selection by importance**
     - In general, feature importance can be computed with feature permutation, i.e. if a random feature value does impact the classification/regression result, then it is an importance feature in this model
-    TODO: add image
+    ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/rf_feature_importance.png)
     - In random forest, the feature permutation is only performed within OOB examples
-    TODO: add image
+    ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/rf_feature_importance_permutation_test.png)
 ### When and Where
 - Random forest is also a very popular model 
 ### Cons
@@ -166,22 +169,24 @@ TODO: add image
 TOD: add image
 - Gradient Descent requires to find two parameters to reduce error:
     - the steepest unit vector **v** to reduce the error => In AdaBoost, vector v is analogous to function h(x)
-    TODO: add image
+    ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/adaboost_dtree_h(x)_0.png)
     - the step length **eta** to go => In AdaBoost, eta is analogous to alpha
-    TODO: add image
+    ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/adaboost_dtree_h(x)_1.png)
 
-## [Gradient Boosting Decision Tree](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/211_handout.pdf)
+## [Gradient Boosted Decision Tree](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/211_handout.pdf)
 ### What
 - A generic boosting model using decision tree as weak hypotheses
 ### Why
 - Extend the boosting model to regression problems
 ### How
 - Use residual (y - s_t) to find (1) the function h(x) (usually) and (2) the alpha for gradient descent
-TODO: add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/GBDT_algorithm.png)
 ### When and Where
 - It is a very mature and popular model
 ### Cons
 - Gradient Boosting builds trees one by one, therefore it is more efficient to train Random Forest than Gradient Boosting
 
 ## [Summary](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/211_handout.pdf)
-TODO:add image
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/summary_blending.png)
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/summary_aggregation.png)
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/summary_aggregation_of_aggregation.png)
