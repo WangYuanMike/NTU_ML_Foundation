@@ -143,10 +143,10 @@
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/rf_oob_definition.png)
 ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/rf_oob_validation.png)
 ### Feature selection by importance**
-    - In general, feature importance can be computed with feature permutation, i.e. if a random feature value does impact the classification/regression result, then it is an importance feature in this model
-    ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/rf_feature_importance.png)
-    - In random forest, the feature permutation is only performed within OOB examples
-    ![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/rf_feature_importance_permutation_test.png)
+- In general, feature importance can be computed with feature permutation, i.e. if a random feature value does impact the classification/regression result, then it is an importance feature in this model
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/rf_feature_importance.png)
+- In random forest, the feature permutation is only performed within OOB examples
+![alt_text](https://github.com/WangYuanMike/NTU_ML_Foundation/blob/master/Aggregation/rf_feature_importance_permutation_test.png)
 ### When and Where
 - Random forest is also a very popular model 
 ### Cons
