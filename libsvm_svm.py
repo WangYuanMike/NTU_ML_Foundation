@@ -59,6 +59,24 @@ def sv_versus_c():
     plt.show()
 
 
+def sv_versus_gamma():
+    x, y = load_samples("./features.train")
+    y_ova_8 = ova(y, 8)
+
+    g_list = list(range(-10, 10))
+    sv_list = []
+    for g in g_list:
+        gamma = pow(10, g)
+        arg_option = "-t 2 -c 1 -g " + str(gamma)
+        model = svm_train(y_ova_8, x, arg_option)
+        nr_sv = model.get_nr_sv()
+        sv_list.append(nr_sv)
+
+    print(sv_list)
+    plt.scatter(g_list, sv_list)
+    plt.show()
+
+
 def margin_versus_c():
     x, y = load_samples("./features.train")
     y_ova_0 = ova(y, 0)
@@ -130,6 +148,7 @@ if __name__ == '__main__':
     #weight_versus_c()
     #e_in_versus_c()
     #sv_versus_c()
+    sv_versus_gamma()
     #margin_versus_c()
     #e_out_versus_gamma()
-    e_val_versus_gamma()
+    #e_val_versus_gamma()
