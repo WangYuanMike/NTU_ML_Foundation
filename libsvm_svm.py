@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from scipy import sqrt
 
 from libsvm.svmutil import *
 from sklearn_SVM import load_samples, ova
@@ -77,6 +78,11 @@ def sv_versus_gamma():
     plt.show()
 
 
+def rbf_kernel(x, gamma):
+    ns = np.linalg.norm(x, axis=1) ** 2
+    return np.exp(-gamma * (ns[:, None] + ns[None, :] - 2 * np.dot(x, x.T)))
+
+
 def margin_versus_c():
     x, y = load_samples("./features.train")
     y_ova_0 = ova(y, 0)
@@ -84,15 +90,43 @@ def margin_versus_c():
     c_list = [1e-3, 1e-2, 1e-1, 1e0, 1e1]
     margin_list = []
     for c in c_list:
-        arg_option = "-t 2 -g 80 -c " + str(c)
+        arg_option = "-q -t 2 -g 80 -c " + str(c)
         model = svm_train(y_ova_0, x, arg_option)
         sv_coef = np.squeeze(np.array(model.get_sv_coef()))
         sv = pd.DataFrame(model.get_SV()).values[:, 1:]
-        w = np.dot(sv_coef, sv)
-        margin_list.append(1 / np.linalg.norm(w))
+        sv_indices = np.add(model.get_sv_indices(), -1)
+        coef_y = sv_coef * y[sv_indices]
+        w_square = np.sum(rbf_kernel(sv, 80) * np.dot(coef_y, coef_y.T))
+        w_norm = sqrt(w_square)
+        margin_list.append(1 / w_norm)
 
+    print("margin in Z space:")
     print(margin_list)
     plt.scatter(np.log10(c_list), margin_list)
+    plt.show()
+
+
+def margin_versus_gamma():
+    x, y = load_samples("./features.train")
+    y_ova_0 = ova(y, 0)
+
+    g_list = list(range(-10, 10))
+    margin_list = []
+    for g in g_list:
+        gamma = pow(10, g)
+        arg_option = "-t 2 -c 1 -g " + str(gamma)
+        model = svm_train(y_ova_0, x, arg_option)
+        sv_coef = np.squeeze(np.array(model.get_sv_coef()))
+        sv = pd.DataFrame(model.get_SV()).values[:, 1:]
+        sv_indices = np.add(model.get_sv_indices(), -1)
+        coef_y = sv_coef * y[sv_indices]
+        w_square = np.sum(rbf_kernel(sv, gamma) * np.dot(coef_y, coef_y.T))
+        w_norm = sqrt(w_square)
+        margin_list.append(1 / w_norm)
+
+    print(margin_list)
+    plt.ylim(0, 1e-3)
+    plt.scatter(g_list, margin_list)
     plt.show()
 
 
@@ -148,7 +182,8 @@ if __name__ == '__main__':
     #weight_versus_c()
     #e_in_versus_c()
     #sv_versus_c()
-    sv_versus_gamma()
+    #sv_versus_gamma()
     #margin_versus_c()
+    margin_versus_gamma()
     #e_out_versus_gamma()
     #e_val_versus_gamma()
